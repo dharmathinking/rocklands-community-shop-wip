@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Rocklands — Concept B: The Living Map</title>
+  <meta name="description" content="The Rocklands: a community shop, café and Post Office rooted in Norfolk. Everything sourced within 30 miles.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Karla:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body { font-family: 'Karla', sans-serif; background: #f7f3ec; color: #2a1f14; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    :root {
+      --earth: #2d1e0f; --earth-mid: #5a3820; --earth-light: #a07050; --earth-pale: #e8ddd0;
+      --amber: #d4a574; --amber-light: #f0dfc0; --cream: #f7f3ec; --cream-dark: #ede6d8;
+      --ink: #2a1f14; --ink-mid: #5a4a3a; --ink-light: #9a8a7a;
+      --border: rgba(42,31,20,0.12); --border-mid: rgba(42,31,20,0.22);
+      --teal: #1D6B5C; --font-serif: 'Cormorant Garamond', Georgia, serif; --font-sans: 'Karla', sans-serif;
+      --max-w: 1140px; --radius: 4px; --shadow: 0 2px 20px rgba(45,30,15,0.1);
+    }
+    h1,h2,h3,h4 { font-family: var(--font-serif); line-height: 1.2; font-weight: 500; }
+    h1 { font-size: clamp(2.4rem,6vw,4rem); }
+    h2 { font-size: clamp(1.6rem,3.5vw,2.6rem); }
+    h3 { font-size: 1.4rem; }
+    p { margin-bottom: 1rem; } p:last-child { margin-bottom: 0; }
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 28px; }
+    .section { padding: 72px 0; } .section-sm { padding: 48px 0; }
+
+    /* PAGE SYSTEM */
+    .page { display: none; animation: fadeIn 0.35s ease; }
+    .page.active { display: block; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+    /* NAV */
+    .site-nav { position: sticky; top: 0; z-index: 100; background: var(--earth); border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .nav-inner { max-width: var(--max-w); margin: 0 auto; padding: 0 28px; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+    .nav-wordmark { font-family: var(--font-serif); font-size: 1.3rem; font-weight: 500; color: #f5e6d2; line-height: 1.1; cursor: pointer; }
+    .nav-wordmark small { display: block; font-family: var(--font-sans); font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--amber); font-weight: 400; }
+    .nav-links { display: flex; align-items: center; gap: 28px; }
+    .nav-links button { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.14em; font-weight: 500; color: rgba(245,230,210,0.6); background: none; border: none; cursor: pointer; font-family: var(--font-sans); transition: color 0.2s; padding: 0; }
+    .nav-links button:hover { color: #f5e6d2; }
+    .nav-links button.active { color: var(--amber); border-bottom: 1px solid var(--amber); padding-bottom: 1px; }
+    .nav-cta { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.14em; font-weight: 700; padding: 7px 18px; border: 1px solid var(--amber); color: var(--amber); background: none; cursor: pointer; font-family: var(--font-sans); transition: all 0.2s; }
+    .nav-cta:hover { background: var(--amber); color: var(--earth); }
+    .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
+    .nav-hamburger span { display: block; width: 22px; height: 1.5px; background: #f5e6d2; }
+
+    /* HERO */
+    .map-hero { background: var(--earth); padding: 72px 0 56px; position: relative; overflow: hidden; }
+    .hero-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+    .hero-overline { font-family: var(--font-sans); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.22em; color: var(--amber); margin-bottom: 16px; }
+    .hero-h1 { font-family: var(--font-serif); font-size: clamp(2.4rem,5vw,3.8rem); color: #f5e6d2; line-height: 1.1; font-weight: 400; }
+    .hero-h1 em { font-style: italic; color: var(--amber); }
+    .hero-body { color: rgba(245,230,210,0.65); font-size: 0.95rem; line-height: 1.8; margin: 20px 0 28px; max-width: 440px; }
+    .hero-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+    .hero-pill { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.1em; padding: 5px 14px; border: 1px solid rgba(245,230,210,0.2); color: rgba(245,230,210,0.5); cursor: pointer; transition: all 0.2s; background: none; font-family: var(--font-sans); }
+    .hero-pill.active, .hero-pill:hover { border-color: var(--amber); color: var(--amber); }
+    .map-container { background: rgba(0,0,0,0.2); border: 1px solid rgba(245,230,210,0.12); overflow: hidden; position: relative; }
+    .map-badge { position: absolute; top: 12px; left: 12px; z-index: 2; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.12em; background: rgba(42,31,20,0.8); color: var(--amber); padding: 4px 10px; }
+
+    /* MISSION STRIP */
+    .mission-strip { background: var(--earth); }
+    .mission-strip-inner { display: grid; grid-template-columns: repeat(3,1fr); }
+    .ms-item { padding: 36px 32px; border-right: 1px solid rgba(255,255,255,0.08); }
+    .ms-item:last-child { border-right: none; }
+    .ms-label { font-family: var(--font-sans); font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--amber); margin-bottom: 10px; }
+    .ms-text { font-size: 0.9rem; color: rgba(245,230,210,0.7); line-height: 1.75; }
+    .ms-text strong { color: #f5e6d2; font-weight: 500; }
+
+    /* SECTION HEADINGS */
+    .section-label { font-family: var(--font-sans); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--ink-light); margin-bottom: 8px; }
+    .section-rule { width: 40px; height: 2px; background: var(--amber); margin: 16px 0 32px; }
+
+    /* SUPPLIER CARDS */
+    .suppliers-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+    .s-card { background: white; border: 1px solid var(--border); padding: 28px 24px; position: relative; transition: box-shadow 0.2s; }
+    .s-card:hover { box-shadow: var(--shadow); }
+    .s-card-dot { width: 8px; height: 8px; border-radius: 50%; margin-bottom: 16px; }
+    .s-card-dist { position: absolute; top: 20px; right: 20px; font-size: 0.65rem; color: var(--ink-light); text-transform: uppercase; letter-spacing: 0.1em; }
+    .s-card-name { font-family: var(--font-serif); font-size: 1.3rem; margin-bottom: 4px; font-weight: 500; }
+    .s-card-loc { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-light); margin-bottom: 14px; }
+    .s-card-desc { font-size: 0.88rem; color: var(--ink-mid); line-height: 1.7; }
+    .s-card-tag { display: inline-block; margin-top: 14px; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.1em; padding: 4px 10px; border: 1px solid var(--border-mid); color: var(--ink-light); }
+
+    /* HOURS */
+    .info-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+    .info-col-b { padding: 48px 40px; }
+    .info-col-b + .info-col-b { border-left: 1px solid var(--border); }
+    .col-label-b { font-family: var(--font-sans); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--ink-light); margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+    .hours-tbl { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    .hours-tbl tr td { padding: 7px 0; border-bottom: 1px solid var(--border); color: var(--ink-mid); }
+    .hours-tbl tr:last-child td { border-bottom: none; }
+    .hours-tbl .today td { color: var(--ink); font-weight: 700; }
+    .po-list { list-style: none; }
+    .po-list li { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; align-items: flex-start; }
+    .po-list li:last-child { border-bottom: none; }
+
+    /* CTA SECTION */
+    .cta-section { background: var(--earth); padding: 64px 0; }
+    .cta-inner { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+    .cta-card { border: 1px solid rgba(255,255,255,0.12); padding: 32px 28px; }
+    .cta-card h3 { font-family: var(--font-serif); color: #f5e6d2; font-size: 1.4rem; margin-bottom: 8px; }
+    .cta-card p { font-size: 0.85rem; color: rgba(245,230,210,0.6); margin-bottom: 20px; }
+    .cta-link { display: inline-block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.14em; font-weight: 700; padding: 9px 22px; border: 1px solid var(--amber); color: var(--amber); background: none; cursor: pointer; font-family: var(--font-sans); transition: all 0.2s; }
+    .cta-link:hover { background: var(--amber); color: var(--earth); }
+    .cta-link.filled { background: var(--amber); color: var(--earth); }
+    .cta-link.filled:hover { background: #c09060; }
+
+    /* PAGE HERO */
+    .page-hero-b { background: var(--earth); padding: 60px 0 48px; }
+    .ph-overline { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--amber); margin-bottom: 12px; }
+    .ph-title { font-family: var(--font-serif); font-size: clamp(1.8rem,4vw,3rem); color: #f5e6d2; font-weight: 400; }
+    .ph-sub { color: rgba(245,230,210,0.6); max-width: 560px; margin-top: 14px; font-size: 0.95rem; line-height: 1.75; }
+    .ph-breadcrumb { font-size: 0.7rem; color: rgba(245,230,210,0.35); margin-bottom: 8px; }
+    .ph-breadcrumb span { color: var(--amber); cursor: pointer; }
+
+    /* INNER CONTENT */
+    .inner-section { background: var(--cream); }
+    .mission-pull { border-left: 3px solid var(--amber); padding: 20px 24px; background: white; margin: 28px 0; }
+    .mission-pull p { font-family: var(--font-serif); font-size: 1.15rem; font-style: italic; line-height: 1.75; }
+    .values-g { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin: 28px 0; }
+    .val { padding: 24px; background: white; border-top: 2px solid var(--amber); }
+    .val-l { font-family: var(--font-serif); font-size: 2.2rem; color: var(--amber); line-height: 1; margin-bottom: 8px; }
+    .val-t { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; margin-bottom: 8px; }
+    .val-d { font-size: 0.84rem; color: var(--ink-mid); line-height: 1.7; }
+    .doc-list-b { list-style: none; }
+    .doc-list-b li { display: flex; align-items: center; justify-content: space-between; padding: 13px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .doc-list-b li:first-child { border-top: 1px solid var(--border); }
+    .doc-dl { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; padding: 5px 14px; border: 1px solid var(--earth-mid); color: var(--earth-mid); background: none; cursor: pointer; font-family: var(--font-sans); transition: all 0.2s; }
+    .doc-dl:hover { background: var(--earth-mid); color: white; }
+    .badge-b { display: inline-block; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em; padding: 2px 8px; background: var(--amber-light); color: var(--earth-mid); margin-left: 8px; vertical-align: middle; }
+    .complaints-b { background: var(--cream-dark); border: 1px solid var(--border); padding: 28px; margin-top: 28px; }
+    .divider-b { height: 1px; background: var(--border); margin: 48px 0; }
+
+    /* FORMS */
+    .vol-form-b { background: white; border: 1px solid var(--border); padding: 36px; margin-top: 28px; }
+    .form-row-b { margin-bottom: 20px; }
+    .form-label-b { display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700; color: var(--ink-mid); margin-bottom: 6px; }
+    .form-inp { width: 100%; padding: 10px 14px; border: 1px solid var(--border-mid); background: var(--cream); font-family: var(--font-sans); font-size: 0.9rem; color: var(--ink); transition: border-color 0.2s; }
+    .form-inp:focus { outline: none; border-color: var(--earth-mid); }
+    .form-grid-b { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .btn-b { display: inline-block; padding: 12px 28px; background: var(--earth); color: #f5e6d2; font-family: var(--font-sans); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.14em; font-weight: 700; border: none; cursor: pointer; transition: background 0.2s; }
+    .btn-b:hover { background: var(--earth-mid); }
+    .btn-out-b { display: inline-block; padding: 12px 28px; background: transparent; color: var(--earth); font-family: var(--font-sans); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.14em; font-weight: 700; border: 2px solid var(--earth); cursor: pointer; transition: all 0.2s; margin-left: 10px; }
+    .btn-out-b:hover { background: var(--earth); color: #f5e6d2; }
+
+    /* VOLUNTEER */
+    .vol-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; background: white; border: 1px solid var(--border); margin: 28px 0; }
+    .vol-stat { padding: 28px 20px; text-align: center; border-right: 1px solid var(--border); }
+    .vol-stat:last-child { border-right: none; }
+    .vs-n { font-family: var(--font-serif); font-size: 3rem; color: var(--earth-mid); }
+    .vs-l { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-light); margin-top: 4px; }
+    .roles-g { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; margin: 28px 0; }
+    .role-b { background: white; padding: 20px; border-left: 3px solid var(--amber); }
+    .role-b-t { font-weight: 700; font-size: 0.9rem; margin-bottom: 6px; }
+    .role-b-d { font-size: 0.84rem; color: var(--ink-mid); line-height: 1.65; }
+    .rights-b { background: var(--earth); color: #f5e6d2; padding: 36px; margin: 28px 0; }
+    .rights-b h3 { font-family: var(--font-serif); color: #f5e6d2; margin-bottom: 16px; font-size: 1.4rem; }
+    .rights-b ul { list-style: none; }
+    .rights-b ul li { padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 0.88rem; color: rgba(245,230,210,0.75); }
+    .rights-b ul li:last-child { border-bottom: none; }
+    .rights-b ul li::before { content: '— '; color: var(--amber); }
+
+    /* CONTACT */
+    .contact-g { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+    .cib-b { margin-bottom: 24px; }
+    .cib-b-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--ink-light); margin-bottom: 5px; }
+    .cib-b-val { font-size: 1rem; font-weight: 700; font-family: var(--font-serif); }
+    .cib-b-sub { font-size: 0.85rem; color: var(--ink-mid); }
+    .map-ph { width: 100%; height: 240px; background: var(--earth-pale); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 8px; color: var(--ink-light); font-size: 0.85rem; }
+
+    /* FOOTER */
+    .site-footer-b { background: var(--earth); color: rgba(245,230,210,0.55); padding: 56px 0 32px; border-top: 2px solid var(--amber); margin-top: 0; }
+    .footer-g { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+    .fb-brand { font-family: var(--font-serif); font-size: 1.5rem; color: #f5e6d2; font-weight: 400; margin-bottom: 10px; }
+    .fb-tag { font-size: 0.83rem; line-height: 1.7; max-width: 260px; }
+    .ft-title { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--amber); margin-bottom: 14px; font-weight: 700; }
+    .ft-links { list-style: none; }
+    .ft-links li { margin-bottom: 8px; }
+    .ft-links button { font-size: 0.85rem; color: rgba(245,230,210,0.55); background: none; border: none; cursor: pointer; font-family: var(--font-sans); transition: color 0.2s; padding: 0; text-align: left; }
+    .ft-links button:hover { color: #f5e6d2; }
+    .footer-bottom-b { padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .footer-legal-b { font-size: 0.7rem; color: rgba(245,230,210,0.3); }
+
+    /* CAFÉ */
+    .cafe-two { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+    .menu-block { background: white; border: 1px solid var(--border); padding: 28px; margin-bottom: 16px; }
+    .menu-block-title { font-family: var(--font-serif); font-size: 1.1rem; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+    .menu-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; }
+    .menu-row:last-child { border-bottom: none; }
+    .menu-price { color: var(--ink-mid); font-weight: 700; white-space: nowrap; margin-left: 12px; }
+
+    /* COOKIE */
+    .cookie-b { position: fixed; bottom: 0; left: 0; right: 0; z-index: 999; background: var(--ink); color: #f5e6d2; padding: 16px 28px; display: flex; align-items: center; justify-content: space-between; gap: 20px; font-size: 0.85rem; box-shadow: 0 -4px 24px rgba(0,0,0,0.2); }
+    .ck-acc { padding: 8px 18px; background: var(--amber); color: var(--earth); font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; border: none; cursor: pointer; font-family: var(--font-sans); }
+    .ck-dec { padding: 8px 18px; background: transparent; color: rgba(245,230,210,0.6); border: 1px solid rgba(255,255,255,0.2); font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; font-family: var(--font-sans); }
+
+    /* RESPONSIVE */
+    @media (max-width: 960px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .mission-strip-inner { grid-template-columns: 1fr; }
+      .ms-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+      .cta-inner { grid-template-columns: 1fr; }
+      .info-two-col { grid-template-columns: 1fr; }
+      .info-col-b + .info-col-b { border-left: none; border-top: 1px solid var(--border); }
+      .suppliers-grid { grid-template-columns: 1fr 1fr; }
+      .footer-g { grid-template-columns: 1fr 1fr; }
+      .values-g { grid-template-columns: 1fr 1fr; }
+      .cafe-two { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .nav-links, .nav-cta { display: none; }
+      .nav-hamburger { display: flex; }
+      .suppliers-grid { grid-template-columns: 1fr; }
+      .contact-g { grid-template-columns: 1fr; }
+      .roles-g { grid-template-columns: 1fr; }
+      .vol-stats { grid-template-columns: 1fr 1fr; }
+      .vol-stat:nth-child(2) { border-right: none; }
+      .values-g { grid-template-columns: 1fr; }
+      .footer-g { grid-template-columns: 1fr; }
+      .form-grid-b { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <div class="nav-wordmark" onclick="showPage('home')">The Rocklands<small>Local Marketplace · Community Benefit Society</small></div>
+    <nav class="nav-links">
+      <button onclick="showPage('home')" id="nav-home" class="active">Home</button>
+      <button onclick="showPage('map')" id="nav-map">Our Map</button>
+      <button onclick="showPage('cafe')" id="nav-cafe">Café</button>
+      <button onclick="showPage('shop')" id="nav-shop">Shop &amp; PO</button>
+      <button onclick="showPage('about')" id="nav-about">About</button>
+      <button onclick="showPage('contact')" id="nav-contact">Contact</button>
+    </nav>
+    <button class="nav-cta" onclick="showPage('volunteer')">Volunteer</button>
+    <button class="nav-hamburger" onclick="toggleMobileNav()" aria-label="Open menu"><span></span><span></span><span></span></button>
+  </div>
+  <div id="mobile-nav" style="display:none;background:var(--earth);padding:12px 28px;border-top:1px solid rgba(255,255,255,0.08);">
+    <button onclick="showPage('home');toggleMobileNav()" style="display:block;width:100%;text-align:left;padding:10px 0;border:none;border-bottom:1px solid rgba(255,255,255,0.08);background:none;color:rgba(245,230,210,0.8);font-family:var(--font-sans);font-size:0.85rem;cursor:pointer;">Home</button>
+    <button onclick="showPage('map');toggleMobileNav()" style="display:block;width:100%;text-align:left;padding:10px 0;border:none;border-bottom:1px solid rgba(255,255,255,0.08);background:none;color:rgba(245,230,210,0.8);font-family:var(--font-sans);font-size:0.85rem;cursor:pointer;">Our Map</button>
+    <button onclick="showPage('cafe');toggleMobileNav()" style="display:block;width:100%;text-align:left;padding:10px 0;border:none;border-bottom:1px solid rgba(255,255,255,0.08);background:none;color:rgba(245,230,210,0.8);font-family:var(--font-sans);font-size:0.85rem;cursor:pointer;">Café</button>
+    <button onclick="showPage('shop');toggleMobileNav()" style="display:block;width:100%;text-align:left;padding:10px 0;border:none;border-bottom:1px solid rgba(255,255,255,0.08);background:none;color:rgba(245,230,210,0.8);font-family:var(--font-sans);font-size:0.85rem;cursor:pointer;">Shop &amp; Post Office</button>
+    <button onclick="showPage('volunteer');toggleMobileNav()" style="display:block;width:100%;text-align:left;padding:10px 0;border:none;border-bottom:1px solid rgba(255,255,255,0.08);background:none;color:rgba(245,230,210,0.8);font-family:var(--font-sans);font-size:0.85rem;cursor:pointer;">Volunteer</button>
+    <button onclick="showPage('about');toggleMobileNav()" style="display:block;width:100%;text-align:left;padding:10px 0;border:none;border-bottom:1px solid rgba(255,255,255,0.08);background:none;color:rgba(245,230,210,0.8);font-family:var(--font-sans);font-size:0.85rem;cursor:pointer;">About</button>
+    <button onclick="showPage('contact');toggleMobileNav()" style="display:block;width:100%;text-align:left;padding:10px 0;border:none;background:none;color:rgba(245,230,210,0.8);font-family:var(--font-sans);font-size:0.85rem;cursor:pointer;">Contact</button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════ HOME PAGE -->
+<div id="page-home" class="page active">
+  <section class="map-hero">
+    <div class="container">
+      <div class="hero-inner">
+        <div>
+          <div class="hero-overline">Rocklands, Norfolk · Community Benefit Society</div>
+          <h1 class="hero-h1">Everything within <em>30 miles.</em> Everything worth having.</h1>
+          <p class="hero-body">A community shop, café and Post Office rooted in Norfolk. Every product we stock is sourced within 30 miles or across the county — grown, reared or made by people you can meet.</p>
+          <div class="hero-pills">
+            <button class="hero-pill active" onclick="pillClick(this)">All suppliers</button>
+            <button class="hero-pill" onclick="pillClick(this)">Meat &amp; dairy</button>
+            <button class="hero-pill" onclick="pillClick(this)">Bakery</button>
+            <button class="hero-pill" onclick="pillClick(this)">Produce</button>
+            <button class="hero-pill" onclick="pillClick(this)">Café</button>
+          </div>
+        </div>
+        <div class="map-container">
+          <div class="map-badge">30-mile sourcing radius</div>
+          <svg width="100%" viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg" aria-label="Map showing Rocklands and surrounding local suppliers">
+            <rect width="480" height="360" fill="#1a1208"/>
+            <line x1="0" y1="180" x2="480" y2="180" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/>
+            <line x1="240" y1="0" x2="240" y2="360" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/>
+            <path d="M40 45 Q130 22, 240 35 Q360 18, 450 50" stroke="rgba(255,255,255,0.2)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <text x="340" y="30" font-size="9" fill="rgba(255,255,255,0.25)" font-family="'Karla',sans-serif">Norfolk coast</text>
+            <circle cx="240" cy="188" r="130" fill="rgba(212,165,116,0.04)" stroke="rgba(212,165,116,0.18)" stroke-width="1" stroke-dasharray="5 4"/>
+            <circle cx="240" cy="188" r="10" fill="#d4a574" opacity="0.95"/>
+            <circle cx="240" cy="188" r="18" fill="none" stroke="#d4a574" stroke-width="1.5" opacity="0.35"/>
+            <text x="255" y="178" font-size="10" fill="#f5e6d2" font-family="'Karla',sans-serif" font-weight="700">Rocklands</text>
+            <line x1="240" y1="198" x2="250" y2="240" stroke="rgba(59,139,212,0.3)" stroke-width="0.5" stroke-dasharray="3 3"/>
+            <circle cx="250" cy="244" r="7" fill="#3B8BD4" opacity="0.9"/>
+            <text x="262" y="248" font-size="8" fill="rgba(255,255,255,0.6)" font-family="'Karla',sans-serif">Barnard's</text>
+            <line x1="230" y1="181" x2="198" y2="162" stroke="rgba(29,155,117,0.3)" stroke-width="0.5" stroke-dasharray="3 3"/>
+            <circle cx="194" cy="158" r="7" fill="#1D9E75" opacity="0.9"/>
+            <text x="205" y="162" font-size="8" fill="rgba(255,255,255,0.6)" font-family="'Karla',sans-serif">Dann's Farm</text>
+            <line x1="232" y1="194" x2="180" y2="222" stroke="rgba(239,159,39,0.3)" stroke-width="0.5" stroke-dasharray="3 3"/>
+            <circle cx="176" cy="226" r="7" fill="#EF9F27" opacity="0.9"/>
+            <text x="157" y="240" font-size="8" fill="rgba(255,255,255,0.6)" font-family="'Karla',sans-serif">Hingham</text>
+            <circle cx="315" cy="140" r="5" fill="rgba(212,165,116,0.4)"/>
+            <circle cx="170" cy="130" r="5" fill="rgba(196,76,40,0.5)"/>
+            <circle cx="340" cy="240" r="4" fill="rgba(176,136,48,0.5)"/>
+            <text x="240" y="353" font-size="7" fill="rgba(255,255,255,0.2)" font-family="'Karla',sans-serif" text-anchor="middle">Schematic · distances approximate</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="mission-strip">
+    <div class="container" style="padding:0;">
+      <div class="mission-strip-inner">
+        <div class="ms-item"><div class="ms-label">Our pledge</div><p class="ms-text">We trade <strong>for the community's benefit</strong> — every penny of profit stays in the Society for local good.</p></div>
+        <div class="ms-item"><div class="ms-label">Animal welfare</div><p class="ms-text">Meat only from <strong>Red Tractor assured</strong> suppliers who take welfare seriously at every stage.</p></div>
+        <div class="ms-item"><div class="ms-label">Social roots</div><p class="ms-text">Here for <strong>everyone</strong> — especially elderly residents and those in our rurally isolated hamlets.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="section" style="background:var(--cream);">
+    <div class="container">
+      <div class="section-label">Our producers</div>
+      <h2 style="font-family:var(--font-serif);margin-bottom:6px;">The people behind your food</h2>
+      <div class="section-rule"></div>
+      <div class="suppliers-grid">
+        <div class="s-card"><div class="s-card-dot" style="background:#3B8BD4;"></div><div class="s-card-dist">8 miles</div><div class="s-card-name">DJ Barnard's Meats</div><div class="s-card-loc">📍 Attleborough, Norfolk</div><p class="s-card-desc">Trusted local butcher providing fresh, dry-aged beef and lamb. Red Tractor assured — welfare-first at every stage.</p><span class="s-card-tag">Red Tractor Assured</span><p style="margin-top:12px;"><button onclick="showPage('map')" style="font-size:0.78rem;font-weight:700;color:var(--earth-mid);background:none;border:none;cursor:pointer;font-family:var(--font-sans);">See on map →</button></p></div>
+        <div class="s-card"><div class="s-card-dot" style="background:#1D9E75;"></div><div class="s-card-dist">5 miles</div><div class="s-card-name">Dann's Farm</div><div class="s-card-loc">📍 Shipdham, Norfolk</div><p class="s-card-desc">Just down the road — exceptional ice cream and lollies from their own dairy herd. Seasonal elderflower and more.</p><span class="s-card-tag">Farm fresh · seasonal</span><p style="margin-top:12px;"><button onclick="showPage('map')" style="font-size:0.78rem;font-weight:700;color:var(--earth-mid);background:none;border:none;cursor:pointer;font-family:var(--font-sans);">See on map →</button></p></div>
+        <div class="s-card"><div class="s-card-dot" style="background:#EF9F27;"></div><div class="s-card-dist">8 miles</div><div class="s-card-name">Hingham Bakery</div><div class="s-card-loc">📍 Hingham, Norfolk</div><p class="s-card-desc">Fresh bread baked every morning. Sourdough, seeded bloomers, pastries — on our shelves by 8:30am daily.</p><span class="s-card-tag">Daily delivery</span><p style="margin-top:12px;"><button onclick="showPage('map')" style="font-size:0.78rem;font-weight:700;color:var(--earth-mid);background:none;border:none;cursor:pointer;font-family:var(--font-sans);">See on map →</button></p></div>
+      </div>
+      <div style="text-align:center;margin-top:32px;"><button onclick="showPage('map')" style="font-size:0.8rem;font-weight:700;color:var(--earth-mid);border-bottom:1px solid var(--earth-mid);padding-bottom:2px;background:none;border-top:none;border-left:none;border-right:none;cursor:pointer;font-family:var(--font-sans);">Explore the full 30-mile map →</button></div>
+    </div>
+  </section>
+
+  <section class="section" style="background:var(--cream-dark);">
+    <div class="container">
+      <div class="section-label">Supplier stories</div>
+      <h2 style="font-family:var(--font-serif);margin-bottom:6px;">From the land to your table</h2>
+      <div class="section-rule"></div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;">
+        <div style="background:white;"><div style="height:160px;background:linear-gradient(160deg,#3d1a0a,#7a3820);display:flex;align-items:center;justify-content:center;font-size:3rem;">🥩</div><div style="padding:20px;"><div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--ink-light);margin-bottom:6px;">Meat · DJ Barnard's Meats</div><div style="font-family:var(--font-serif);font-size:1.15rem;line-height:1.3;margin-bottom:6px;">The farmer behind your beef</div><div style="font-size:0.78rem;color:var(--ink-light);">Attleborough · 8 miles</div><p style="font-size:0.84rem;color:var(--ink-mid);margin-top:10px;line-height:1.7;">Dry-aged on the farm, delivered fresh each week. <button onclick="showPage('map')" style="color:var(--earth-mid);font-weight:700;background:none;border:none;cursor:pointer;font-family:var(--font-sans);font-size:inherit;">Read the story →</button></p></div></div>
+        <div style="background:white;"><div style="height:160px;background:linear-gradient(160deg,#0a2d1a,#1a6040);display:flex;align-items:center;justify-content:center;font-size:3rem;">🍦</div><div style="padding:20px;"><div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--ink-light);margin-bottom:6px;">Dairy · Dann's Farm</div><div style="font-family:var(--font-serif);font-size:1.15rem;line-height:1.3;margin-bottom:6px;">Elderflower season at Dann's</div><div style="font-size:0.78rem;color:var(--ink-light);">Shipdham · 5 miles</div><p style="font-size:0.84rem;color:var(--ink-mid);margin-top:10px;line-height:1.7;">First batch of the season just arrived. <button onclick="showPage('map')" style="color:var(--earth-mid);font-weight:700;background:none;border:none;cursor:pointer;font-family:var(--font-sans);font-size:inherit;">Read the story →</button></p></div></div>
+        <div style="background:white;"><div style="height:160px;background:linear-gradient(160deg,#2d2005,#6a4f1a);display:flex;align-items:center;justify-content:center;font-size:3rem;">🍞</div><div style="padding:20px;"><div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--ink-light);margin-bottom:6px;">Bakery · Hingham Bakery</div><div style="font-family:var(--font-serif);font-size:1.15rem;line-height:1.3;margin-bottom:6px;">A morning with the bakers</div><div style="font-size:0.78rem;color:var(--ink-light);">Hingham · 8 miles</div><p style="font-size:0.84rem;color:var(--ink-mid);margin-top:10px;line-height:1.7;">Baked at 5am, on our shelves by 8:30. <button onclick="showPage('map')" style="color:var(--earth-mid);font-weight:700;background:none;border:none;cursor:pointer;font-family:var(--font-sans);font-size:inherit;">Read the story →</button></p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:white;">
+    <div class="container" style="padding-top:0;padding-bottom:0;">
+      <div class="info-two-col">
+        <div class="info-col-b">
+          <div class="col-label-b">Opening hours — shop, café &amp; Post Office</div>
+          <table class="hours-tbl" id="hours-home">
+            <tr><td>Sunday</td><td style="text-align:right;">8:00am – 1:00pm</td></tr>
+            <tr><td>Monday</td><td style="text-align:right;">8:00am – 5:30pm</td></tr>
+            <tr><td>Tuesday</td><td style="text-align:right;">8:00am – 5:30pm</td></tr>
+            <tr><td>Wednesday</td><td style="text-align:right;">8:00am – 5:30pm</td></tr>
+            <tr><td>Thursday</td><td style="text-align:right;">8:00am – 5:30pm</td></tr>
+            <tr><td style="font-weight:700;">Friday</td><td style="text-align:right;font-weight:700;color:var(--amber);">8:00am – 5:30pm</td></tr>
+            <tr><td>Saturday</td><td style="text-align:right;">8:00am – 4:00pm</td></tr>
+          </table>
+          <p style="font-size:0.8rem;color:var(--ink-light);margin-top:14px;padding-top:12px;border-top:1px solid var(--border);">Post Office keeps the same hours as the shop, including Sundays.</p>
+        </div>
+        <div class="info-col-b">
+          <div class="col-label-b">Post Office &amp; additional services</div>
+          <ul class="po-list">
+            <li><span>📦</span><span><strong>Send &amp; receive parcels</strong> — Drop &amp; Go, despatch, collections</span></li>
+            <li><span>🏦</span><span><strong>Everyday banking</strong> — deposit cash &amp; cheques, withdrawals</span></li>
+            <li><span>💰</span><span><strong>Travel money</strong> — euros, US dollars &amp; other currencies</span></li>
+            <li><span>🚗</span><span><strong>DVLA services</strong> — vehicle tax &amp; other transactions</span></li>
+            <li><span>💡</span><span><strong>Bill payments</strong> — gas, electricity, council tax &amp; more</span></li>
+            <li><span>📮</span><span><strong>Stamps, stationery, gift cards</strong> — all denominations</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-inner">
+        <div class="cta-card"><h3>Volunteer with us</h3><p>Over 50 volunteers keep The Rocklands open seven days a week. Every shift makes a real difference.</p><button class="cta-link filled" onclick="showPage('volunteer')">Get involved</button></div>
+        <div class="cta-card"><h3>Become a member</h3><p>As a Community Benefit Society, our members own the shop. Your voice shapes how we serve the community.</p><button class="cta-link" onclick="showPage('about')">Join us</button></div>
+        <div class="cta-card"><h3>Shop Notes</h3><p>Our occasional newsletter — what's new, what's fresh and what's happening at The Rocklands.</p><button class="cta-link" onclick="showPage('about')">Sign up</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-sm" style="background:white;border-top:1px solid var(--border);">
+    <div class="container">
+      <div class="section-label" style="text-align:center;margin-bottom:20px;">Funding &amp; support</div>
+      <div style="display:flex;gap:16px;align-items:center;justify-content:center;flex-wrap:wrap;">
+        <span style="padding:10px 20px;background:var(--cream-dark);border:1px solid var(--border);font-size:0.82rem;font-weight:700;color:var(--ink-mid);">Plunkett UK</span>
+        <span style="padding:10px 20px;background:var(--cream-dark);border:1px solid var(--border);font-size:0.82rem;font-weight:700;color:var(--ink-mid);">The Prince's Countryside Fund</span>
+        <span style="padding:10px 20px;background:var(--cream-dark);border:1px solid var(--border);font-size:0.82rem;font-weight:700;color:var(--ink-mid);">National Lottery Community Fund</span>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer-b"><div class="container"><div class="footer-g"><div><div class="fb-brand">The Rocklands</div><p class="fb-tag">Community shop, café and Post Office rooted in Norfolk. Trading for the community since 2013.</p><p style="margin-top:16px;font-size:0.72rem;color:rgba(245,230,210,0.3);">Rocklands Community Shop Ltd · CBS Reg. No. 30665R</p></div><div><div class="ft-title">Visit</div><ul class="ft-links"><li><button onclick="showPage('shop')">Shop &amp; Post Office</button></li><li><button onclick="showPage('cafe')">Café</button></li><li><button onclick="showPage('map')">Our 30-mile map</button></li><li><button onclick="showPage('contact')">Find us</button></li></ul></div><div><div class="ft-title">Community</div><ul class="ft-links"><li><button onclick="showPage('volunteer')">Volunteer</button></li><li><button onclick="showPage('about')">Membership</button></li><li><button onclick="showPage('map')">Suppliers</button></li><li><button onclick="showPage('about')">Governance</button></li></ul></div><div><div class="ft-title">Information</div><ul class="ft-links"><li><button onclick="showPage('about')">About us</button></li><li><button onclick="showPage('about')">Privacy policy</button></li><li><button onclick="showPage('about')">Complaints</button></li><li><button onclick="showPage('contact')">Contact</button></li></ul></div></div><div class="footer-bottom-b"><span class="footer-legal-b">© 2025 Rocklands Community Shop Ltd. Community Benefit Society Reg. No. 30665R. We will not share your data with third parties for marketing purposes.</span></div></div></footer>
+</div>
+
+<!-- ═══════════════════════════════════════════ MAP PAGE -->
+<div id="page-map" class="page">
+  <div class="page-hero-b"><div class="container"><div class="ph-breadcrumb"><span onclick="showPage('home')">Home</span> / Our Map</div><div class="ph-overline">30 miles, rooted here</div><h1 class="ph-title">Our Local Suppliers</h1><p class="ph-sub">We source everything from within a 30-mile radius of the shop, or within Norfolk. These are the people behind your food.</p></div></div>
+  <section style="background:var(--earth);padding:0;">
+    <div style="display:grid;grid-template-columns:1fr 300px;min-height:440px;">
+      <div style="background:#1a1208;position:relative;">
+        <svg width="100%" viewBox="0 0 680 440" xmlns="http://www.w3.org/2000/svg" aria-label="Detailed map showing all supplier locations within 30 miles of Rocklands">
+          <rect width="680" height="440" fill="#1a1208"/>
+          <line x1="0" y1="220" x2="680" y2="220" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/>
+          <line x1="340" y1="0" x2="340" y2="440" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/>
+          <path d="M50 55 Q200 28, 340 42 Q500 20, 640 60" stroke="rgba(255,255,255,0.25)" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <text x="460" y="38" font-size="10" fill="rgba(255,255,255,0.3)" font-family="'Karla',sans-serif">Norfolk coast</text>
+          <circle cx="340" cy="232" r="60" fill="none" stroke="rgba(212,165,116,0.08)" stroke-width="0.5" stroke-dasharray="3 3"/>
+          <circle cx="340" cy="232" r="120" fill="none" stroke="rgba(212,165,116,0.12)" stroke-width="0.5" stroke-dasharray="3 3"/>
+          <circle cx="340" cy="232" r="170" fill="rgba(212,165,116,0.03)" stroke="rgba(212,165,116,0.2)" stroke-width="1" stroke-dasharray="6 4"/>
+          <text x="402" y="168" font-size="7.5" fill="rgba(212,165,116,0.3)" font-family="'Karla',sans-serif">10mi</text>
+          <text x="462" y="108" font-size="7.5" fill="rgba(212,165,116,0.3)" font-family="'Karla',sans-serif">20mi</text>
+          <text x="512" y="62" font-size="7.5" fill="rgba(212,165,116,0.4)" font-family="'Karla',sans-serif">30mi radius</text>
+          <circle cx="340" cy="232" r="12" fill="#d4a574"/>
+          <circle cx="340" cy="232" r="20" fill="none" stroke="#d4a574" stroke-width="2" opacity="0.4"/>
+          <text x="358" y="222" font-size="11" fill="#f5e6d2" font-family="'Karla',sans-serif" font-weight="700">Rocklands</text>
+          <line x1="340" y1="244" x2="352" y2="290" stroke="rgba(59,139,212,0.25)" stroke-width="0.5" stroke-dasharray="4 3"/>
+          <circle cx="355" cy="296" r="9" fill="#3B8BD4"/>
+          <text x="370" y="300" font-size="9.5" fill="rgba(255,255,255,0.75)" font-family="'Karla',sans-serif" font-weight="700">DJ Barnard's Meats</text>
+          <text x="370" y="313" font-size="8" fill="rgba(255,255,255,0.4)" font-family="'Karla',sans-serif">Attleborough · 8mi</text>
+          <line x1="330" y1="223" x2="278" y2="192" stroke="rgba(29,158,117,0.25)" stroke-width="0.5" stroke-dasharray="4 3"/>
+          <circle cx="273" cy="188" r="9" fill="#1D9E75"/>
+          <text x="195" y="182" font-size="9.5" fill="rgba(255,255,255,0.75)" font-family="'Karla',sans-serif" font-weight="700">Dann's Farm</text>
+          <text x="195" y="195" font-size="8" fill="rgba(255,255,255,0.4)" font-family="'Karla',sans-serif">Shipdham · 5mi</text>
+          <line x1="330" y1="240" x2="245" y2="280" stroke="rgba(239,159,39,0.25)" stroke-width="0.5" stroke-dasharray="4 3"/>
+          <circle cx="239" cy="286" r="9" fill="#EF9F27"/>
+          <text x="155" y="280" font-size="9.5" fill="rgba(255,255,255,0.75)" font-family="'Karla',sans-serif" font-weight="700">Hingham Bakery</text>
+          <text x="155" y="293" font-size="8" fill="rgba(255,255,255,0.4)" font-family="'Karla',sans-serif">Hingham · 8mi</text>
+          <circle cx="420" cy="150" r="7" fill="rgba(212,165,116,0.35)"/>
+          <circle cx="230" cy="155" r="7" fill="rgba(196,76,40,0.35)"/>
+          <circle cx="440" cy="290" r="6" fill="rgba(176,136,48,0.3)"/>
+          <text x="340" y="432" font-size="7.5" fill="rgba(255,255,255,0.2)" font-family="'Karla',sans-serif" text-anchor="middle">Schematic map · add Google Maps embed for production</text>
+        </svg>
+      </div>
+      <div style="background:var(--earth);border-left:1px solid rgba(255,255,255,0.08);padding:28px 24px;overflow-y:auto;">
+        <div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--amber);margin-bottom:16px;">Our suppliers</div>
+        <div style="margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid rgba(255,255,255,0.08);"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;"><span style="width:8px;height:8px;border-radius:50%;background:#3B8BD4;flex-shrink:0;"></span><span style="font-size:0.95rem;font-weight:700;color:#f5e6d2;">DJ Barnard's Meats</span></div><div style="font-size:0.72rem;color:var(--amber);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:5px;">Attleborough · 8 miles</div><p style="font-size:0.82rem;color:rgba(245,230,210,0.65);line-height:1.65;">Red Tractor assured beef &amp; lamb. Fresh cut weekly.</p></div>
+        <div style="margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid rgba(255,255,255,0.08);"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;"><span style="width:8px;height:8px;border-radius:50%;background:#1D9E75;flex-shrink:0;"></span><span style="font-size:0.95rem;font-weight:700;color:#f5e6d2;">Dann's Farm</span></div><div style="font-size:0.72rem;color:var(--amber);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:5px;">Shipdham · 5 miles</div><p style="font-size:0.82rem;color:rgba(245,230,210,0.65);line-height:1.65;">Ice cream, lollies &amp; dairy. Seasonal elderflower flavour available now.</p></div>
+        <div style="margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid rgba(255,255,255,0.08);"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;"><span style="width:8px;height:8px;border-radius:50%;background:#EF9F27;flex-shrink:0;"></span><span style="font-size:0.95rem;font-weight:700;color:#f5e6d2;">Hingham Bakery</span></div><div style="font-size:0.72rem;color:var(--amber);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:5px;">Hingham · 8 miles</div><p style="font-size:0.82rem;color:rgba(245,230,210,0.65);line-height:1.65;">Fresh sourdough &amp; pastries baked every morning. On shelves by 8:30am.</p></div>
+        <div style="background:rgba(212,165,116,0.1);border:1px solid rgba(212,165,116,0.2);padding:14px;"><div style="font-size:0.62rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--amber);margin-bottom:5px;">Local producer?</div><p style="font-size:0.78rem;color:rgba(245,230,210,0.6);line-height:1.6;">Within 30 miles of Rocklands? We'd love to hear from you.</p><button onclick="showPage('contact')" style="display:block;margin-top:8px;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;font-weight:700;color:var(--amber);background:none;border:none;cursor:pointer;font-family:var(--font-sans);">Contact us →</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background:var(--cream);">
+    <div class="container">
+      <div class="section-label">Producer profiles</div>
+      <h2 style="font-family:var(--font-serif);margin-bottom:6px;">Meet our suppliers</h2>
+      <div class="section-rule"></div>
+      <div class="suppliers-grid">
+        <div class="s-card"><div class="s-card-dot" style="background:#3B8BD4;"></div><div class="s-card-dist">8 miles</div><div class="s-card-name">DJ Barnard's Meats</div><div class="s-card-loc">📍 Attleborough, Norfolk</div><p class="s-card-desc">A trusted local butcher providing fresh, dry-aged beef and lamb. Assured under the Red Tractor scheme, taking animal welfare seriously at every stage. Cut weekly and delivered fresh to the counter.</p><span class="s-card-tag">Red Tractor Assured</span></div>
+        <div class="s-card"><div class="s-card-dot" style="background:#1D9E75;"></div><div class="s-card-dist">5 miles</div><div class="s-card-name">Dann's Farm</div><div class="s-card-loc">📍 Shipdham, Norfolk</div><p class="s-card-desc">Just 5 miles away, Dann's Farm produces exceptional ice cream and lollies from their own dairy herd. Seasonal flavours including their famous elderflower. Fresher products, lower food miles.</p><span class="s-card-tag">Ice Cream &amp; Dairy</span></div>
+        <div class="s-card"><div class="s-card-dot" style="background:#EF9F27;"></div><div class="s-card-dist">8 miles</div><div class="s-card-name">Hingham Bakery</div><div class="s-card-loc">📍 Hingham, Norfolk</div><p class="s-card-desc">Fresh bread baked every morning and delivered daily. Sourdough, seeded bloomers, pastries and more — baked at 5am, on our shelves by 8:30am. Goes fast on Sundays.</p><span class="s-card-tag">Daily Delivery</span></div>
+      </div>
+      <div style="background:var(--cream-dark);border:1px solid var(--border);padding:32px;text-align:center;margin-top:40px;"><h3 style="font-family:var(--font-serif);margin-bottom:10px;">Growing our network</h3><p style="max-width:480px;margin:0 auto 20px;font-size:0.9rem;color:var(--ink-mid);">We're actively building our supplier network. If you produce food or drink within 30 miles of Rocklands, we'd love to discuss stocking your products — with a reciprocal link from this page.</p><button onclick="showPage('contact')" class="btn-b">Get in touch</button><button onclick="showPage('about')" class="btn-out-b">Read our sourcing pledge</button></div>
+    </div>
+  </section>
+  <footer class="site-footer-b"><div class="container"><div class="footer-g"><div><div class="fb-brand">The Rocklands</div><p class="fb-tag">Community shop, café and Post Office, Rocklands, Norfolk.</p></div><div><div class="ft-title">Visit</div><ul class="ft-links"><li><button onclick="showPage('shop')">Shop &amp; Post Office</button></li><li><button onclick="showPage('cafe')">Café</button></li><li><button onclick="showPage('contact')">Find us</button></li></ul></div><div><div class="ft-title">Community</div><ul class="ft-links"><li><button onclick="showPage('volunteer')">Volunteer</button></li><li><button onclick="showPage('about')">About us</button></li></ul></div><div><div class="ft-title">Information</div><ul class="ft-links"><li><button onclick="showPage('about')">Privacy &amp; complaints</button></li><li><button onclick="showPage('contact')">Contact</button></li></ul></div></div><div class="footer-bottom-b"><span class="footer-legal-b">© 2025 Rocklands Community Shop Ltd. CBS Reg. No. 30665R.</span></div></div></footer>
+</div>
+
+<!-- ═══════════════════════════════════════════ CAFÉ PAGE -->
+<div id="page-cafe" class="page">
+  <div class="page-hero-b"><div class="container"><div class="ph-breadcrumb"><span onclick="showPage('home')">Home</span> / Café</div><div class="ph-overline">Dove's Café</div><h1 class="ph-title">Rocklands Community Café</h1><p class="ph-sub">Hot drinks, home-made cakes, daily specials and a proper fresh coffee — to take away or enjoy at our tables. Seven days a week.</p></div></div>
+  <section class="section inner-section">
+    <div class="container">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-bottom:40px;overflow:hidden;">
+        <div style="height:180px;background:linear-gradient(160deg,#3d2010,#7a3820);display:flex;align-items:center;justify-content:center;font-size:3.5rem;">☕</div>
+        <div style="height:180px;background:linear-gradient(160deg,#2d1a0a,#5a3015);display:flex;align-items:center;justify-content:center;font-size:3.5rem;">🍰</div>
+        <div style="height:180px;background:linear-gradient(160deg,#1a2d0a,#3a5a15);display:flex;align-items:center;justify-content:center;font-size:3.5rem;">🥧</div>
+      </div>
+      <div class="cafe-two">
+        <div>
+          <div class="section-label">About the café</div>
+          <h2 style="font-family:var(--font-serif);margin-bottom:4px;">A place to linger</h2>
+          <div class="section-rule"></div>
+          <p style="color:var(--ink-mid);">A place to relax, catch up with friends and enjoy hot and cold drinks and delicious home-made cakes. Great for a fresh coffee on the way to work — to take away or sit at our tables outside.</p>
+          <p style="color:var(--ink-mid);">Look out for our regular community events — chess and dominoes competitions, coffee mornings and more. Our café is cyclist-friendly — stop in for tea and cake like a Rocklander.</p>
+          <div class="divider-b"></div>
+          <h3 style="font-family:var(--font-serif);margin-bottom:16px;">Community events</h3>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="padding:16px 18px;background:white;border:1px solid var(--border);border-left:3px solid var(--amber);display:flex;justify-content:space-between;align-items:center;"><div><div style="font-weight:700;font-size:0.9rem;">Chess &amp; Dominoes afternoon</div><div style="font-size:0.8rem;color:var(--ink-light);margin-top:2px;">Every Saturday · 2:00pm · All welcome</div></div><span style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;padding:4px 10px;border:1px solid var(--border);color:var(--ink-light);">Free</span></div>
+            <div style="padding:16px 18px;background:white;border:1px solid var(--border);border-left:3px solid var(--amber);display:flex;justify-content:space-between;align-items:center;"><div><div style="font-weight:700;font-size:0.9rem;">Community coffee morning</div><div style="font-size:0.8rem;color:var(--ink-light);margin-top:2px;">Monthly · Watch the noticeboard</div></div><span style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;padding:4px 10px;border:1px solid var(--border);color:var(--ink-light);">Free</span></div>
+            <div style="padding:14px 18px;background:var(--cream-dark);border:1px dashed var(--border-mid);font-size:0.82rem;color:var(--ink-mid);">Want to run an event? <button onclick="showPage('contact')" style="color:var(--earth-mid);font-weight:700;background:none;border:none;cursor:pointer;font-family:var(--font-sans);">Get in touch →</button></div>
+          </div>
+        </div>
+        <div>
+          <div class="menu-block"><div class="menu-block-title">Hot drinks</div>
+            <div class="menu-row"><span>Fresh coffee (espresso / flat white / latte)</span><span class="menu-price">From £2.20</span></div>
+            <div class="menu-row"><span>Americano</span><span class="menu-price">£2.00</span></div>
+            <div class="menu-row"><span>Pot of tea</span><span class="menu-price">£1.80</span></div>
+            <div class="menu-row"><span>Hot chocolate</span><span class="menu-price">£2.40</span></div>
+          </div>
+          <div class="menu-block"><div class="menu-block-title">Food &amp; cakes</div>
+            <div class="menu-row"><div><div>Home-made cake (daily selection)</div><div style="font-size:0.78rem;color:var(--ink-light);">Ask at the counter</div></div><span class="menu-price">From £2.00</span></div>
+            <div class="menu-row"><div><div>Daily hot special</div><div style="font-size:0.78rem;color:var(--ink-light);">See the board — changes weekly</div></div><span class="menu-price">From £5.50</span></div>
+            <div class="menu-row"><span>Toasted sandwich</span><span class="menu-price">£4.50</span></div>
+            <div class="menu-row"><div><div>Hingham sourdough toast</div><div style="font-size:0.78rem;color:var(--ink-light);">Butter, jam or honey</div></div><span class="menu-price">£2.50</span></div>
+          </div>
+          <div style="background:var(--amber-light);border:1px solid var(--amber);padding:20px;"><div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--earth-mid);margin-bottom:8px;">Café hours</div><table style="width:100%;font-size:0.88rem;color:var(--ink-mid);"><tr><td style="padding:4px 0;">Sunday</td><td style="text-align:right;">8:00am – 1:00pm</td></tr><tr><td style="padding:4px 0;">Mon – Fri</td><td style="text-align:right;">8:00am – 5:30pm</td></tr><tr><td style="padding:4px 0;">Saturday</td><td style="text-align:right;">8:00am – 4:00pm</td></tr></table></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="cta-section"><div class="container"><div class="cta-inner"><div class="cta-card"><h3>Volunteer with us</h3><p>Join our café team — help make The Rocklands the heart of this community.</p><button class="cta-link filled" onclick="showPage('volunteer')">Get involved</button></div><div class="cta-card"><h3>Our suppliers</h3><p>See where our café ingredients come from — all within 30 miles.</p><button class="cta-link" onclick="showPage('map')">Our 30-mile map</button></div><div class="cta-card"><h3>Get in touch</h3><p>Want to hold an event? Have a question about the café?</p><button class="cta-link" onclick="showPage('contact')">Contact us</button></div></div></div></section>
+  <footer class="site-footer-b"><div class="container"><div class="footer-g"><div><div class="fb-brand">The Rocklands</div><p class="fb-tag">Community shop, café and Post Office, Rocklands, Norfolk.</p></div><div><div class="ft-title">Visit</div><ul class="ft-links"><li><button onclick="showPage('shop')">Shop &amp; Post Office</button></li><li><button onclick="showPage('cafe')">Café</button></li><li><button onclick="showPage('contact')">Find us</button></li></ul></div><div><div class="ft-title">Community</div><ul class="ft-links"><li><button onclick="showPage('volunteer')">Volunteer</button></li><li><button onclick="showPage('about')">About us</button></li></ul></div><div><div class="ft-title">Information</div><ul class="ft-links"><li><button onclick="showPage('about')">Privacy &amp; complaints</button></li><li><button onclick="showPage('contact')">Contact</button></li></ul></div></div><div class="footer-bottom-b"><span class="footer-legal-b">© 2025 Rocklands Community Shop Ltd. CBS Reg. No. 30665R.</span></div></div></footer>
+</div>
+
+<!-- ═══════════════════════════════════════════ SHOP PAGE -->
+<div id="page-shop" class="page">
+  <div class="page-hero-b"><div class="container"><div class="ph-breadcrumb"><span onclick="showPage('home')">Home</span> / Shop &amp; Post Office</div><div class="ph-overline">Everything under one roof</div><h1 class="ph-title">Shop &amp; Post Office</h1><p class="ph-sub">Seven days a week — groceries, fresh local produce, newspapers, off-licence, lottery and full Post Office counter service, same hours as the shop including Sundays.</p></div></div>
+  <section class="section inner-section"><div class="container">
+    <div style="display:grid;grid-template-columns:2fr 1fr;gap:56px;">
+      <div>
+        <div class="section-label">What's in the shop</div>
+        <h2 style="font-family:var(--font-serif);margin-bottom:4px;">Your local essential store</h2>
+        <div class="section-rule"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:40px;">
+          <div style="padding:16px;background:white;border:1px solid var(--border);border-left:3px solid var(--amber);"><strong style="display:block;font-size:0.9rem;margin-bottom:4px;">🥩 Fresh local meat</strong><small style="color:var(--ink-mid);font-size:0.8rem;">Red Tractor assured, from DJ Barnard's</small></div>
+          <div style="padding:16px;background:white;border:1px solid var(--border);border-left:3px solid var(--amber);"><strong style="display:block;font-size:0.9rem;margin-bottom:4px;">🍞 Fresh bread daily</strong><small style="color:var(--ink-mid);font-size:0.8rem;">Hingham Bakery — baked that morning</small></div>
+          <div style="padding:16px;background:white;border:1px solid var(--border);border-left:3px solid var(--amber);"><strong style="display:block;font-size:0.9rem;margin-bottom:4px;">🥛 Local dairy &amp; ice cream</strong><small style="color:var(--ink-mid);font-size:0.8rem;">Dann's Farm, just 5 miles away</small></div>
+          <div style="padding:16px;background:white;border:1px solid var(--border);border-left:3px solid var(--amber);"><strong style="display:block;font-size:0.9rem;margin-bottom:4px;">🛒 Grocery essentials</strong><small style="color:var(--ink-mid);font-size:0.8rem;">Tins, packets, household, chilled</small></div>
+          <div style="padding:16px;background:white;border:1px solid var(--border);border-left:3px solid var(--amber);"><strong style="display:block;font-size:0.9rem;margin-bottom:4px;">📰 Newspapers &amp; magazines</strong><small style="color:var(--ink-mid);font-size:0.8rem;">Daily and Sunday titles</small></div>
+          <div style="padding:16px;background:white;border:1px solid var(--border);border-left:3px solid var(--amber);"><strong style="display:block;font-size:0.9rem;margin-bottom:4px;">🍷 Off-licence</strong><small style="color:var(--ink-mid);font-size:0.8rem;">Wine, beer, spirits and mixers</small></div>
+          <div style="padding:16px;background:white;border:1px solid var(--border);border-left:3px solid var(--amber);"><strong style="display:block;font-size:0.9rem;margin-bottom:4px;">🎰 Lottery</strong><small style="color:var(--ink-mid);font-size:0.8rem;">National Lottery &amp; scratch cards</small></div>
+          <div style="padding:16px;background:white;border:1px solid var(--border);border-left:3px solid var(--amber);"><strong style="display:block;font-size:0.9rem;margin-bottom:4px;">🎁 Greetings cards &amp; gifts</strong><small style="color:var(--ink-mid);font-size:0.8rem;">For all occasions</small></div>
+          <div style="padding:16px;background:white;border:1px solid var(--border);border-left:3px solid var(--amber);"><strong style="display:block;font-size:0.9rem;margin-bottom:4px;">📱 Phone top-ups</strong><small style="color:var(--ink-mid);font-size:0.8rem;">All major networks</small></div>
+          <div style="padding:16px;background:white;border:1px solid var(--border);border-left:3px solid var(--amber);"><strong style="display:block;font-size:0.9rem;margin-bottom:4px;">♻️ Bottle refills</strong><small style="color:var(--ink-mid);font-size:0.8rem;">On request — reducing single-use plastic</small></div>
+        </div>
+        <div class="divider-b"></div>
+        <div class="section-label">Post Office</div>
+        <h2 style="font-family:var(--font-serif);margin-bottom:4px;">Full counter service</h2>
+        <div class="section-rule"></div>
+        <p style="color:var(--ink-mid);margin-bottom:24px;">Full Post Office counter service — about the only thing we can't do is passports. <strong>Same hours as the shop, even on Sundays.</strong></p>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:32px;">
+          <div style="padding:14px;background:white;border:1px solid var(--border);"><strong style="display:block;font-size:0.85rem;margin-bottom:4px;">📦 Parcels</strong><small style="color:var(--ink-mid);font-size:0.78rem;">Send, Drop &amp; Go, despatch</small></div>
+          <div style="padding:14px;background:white;border:1px solid var(--border);"><strong style="display:block;font-size:0.85rem;margin-bottom:4px;">🏦 Banking</strong><small style="color:var(--ink-mid);font-size:0.78rem;">Deposit, withdraw, cheques</small></div>
+          <div style="padding:14px;background:white;border:1px solid var(--border);"><strong style="display:block;font-size:0.85rem;margin-bottom:4px;">💰 Travel money</strong><small style="color:var(--ink-mid);font-size:0.78rem;">Euros, USD &amp; currencies</small></div>
+          <div style="padding:14px;background:white;border:1px solid var(--border);"><strong style="display:block;font-size:0.85rem;margin-bottom:4px;">🚗 DVLA services</strong><small style="color:var(--ink-mid);font-size:0.78rem;">Vehicle tax &amp; transactions</small></div>
+          <div style="padding:14px;background:white;border:1px solid var(--border);"><strong style="display:block;font-size:0.85rem;margin-bottom:4px;">💡 Bill payments</strong><small style="color:var(--ink-mid);font-size:0.78rem;">Gas, electric, council tax</small></div>
+          <div style="padding:14px;background:white;border:1px solid var(--border);"><strong style="display:block;font-size:0.85rem;margin-bottom:4px;">📮 Stamps &amp; gift cards</strong><small style="color:var(--ink-mid);font-size:0.78rem;">All denominations</small></div>
+          <div style="padding:14px;background:white;border:1px solid var(--border);"><strong style="display:block;font-size:0.85rem;margin-bottom:4px;">📦 Online returns</strong><small style="color:var(--ink-mid);font-size:0.78rem;">Drop-off shipping</small></div>
+          <div style="padding:14px;background:white;border:1px solid var(--border);"><strong style="display:block;font-size:0.85rem;margin-bottom:4px;">📱 Mobile top-up</strong><small style="color:var(--ink-mid);font-size:0.78rem;">All networks</small></div>
+          <div style="padding:14px;background:white;border:1px solid var(--border);"><strong style="display:block;font-size:0.85rem;margin-bottom:4px;">🎁 Gift cards</strong><small style="color:var(--ink-mid);font-size:0.78rem;">Wide range in-store</small></div>
+        </div>
+      </div>
+      <div>
+        <div style="position:sticky;top:80px;display:flex;flex-direction:column;gap:20px;">
+          <div style="background:var(--earth);color:#f5e6d2;padding:28px;"><div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--amber);margin-bottom:12px;">Opening hours</div><table style="width:100%;font-size:0.88rem;color:rgba(245,230,210,0.75);"><tr><td style="padding:5px 0;">Sunday</td><td style="text-align:right;">8:00 – 13:00</td></tr><tr><td style="padding:5px 0;">Mon – Thu</td><td style="text-align:right;">8:00 – 17:30</td></tr><tr><td style="padding:5px 0;font-weight:700;color:#f5e6d2;">Friday</td><td style="text-align:right;font-weight:700;color:var(--amber);">8:00 – 17:30</td></tr><tr><td style="padding:5px 0;">Saturday</td><td style="text-align:right;">8:00 – 16:00</td></tr></table><p style="font-size:0.72rem;color:rgba(245,230,210,0.4);margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.1);">Post Office same hours, including Sundays.</p></div>
+          <div style="background:white;border:1px solid var(--border);padding:24px;"><div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--ink-light);margin-bottom:10px;">Find us</div><p style="font-size:0.9rem;font-weight:700;">The Rocklands<br>The Street, Rocklands<br>Norfolk, NR17 1HP</p><button onclick="showPage('contact')" style="display:block;margin-top:14px;font-size:0.78rem;font-weight:700;color:var(--earth-mid);background:none;border:none;cursor:pointer;font-family:var(--font-sans);">Get directions →</button></div>
+          <div style="background:var(--amber-light);border:1px solid var(--amber);padding:20px;"><div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--earth-mid);margin-bottom:8px;">Local sourcing</div><p style="font-size:0.83rem;color:var(--ink-mid);line-height:1.65;">We source within a <strong>30-mile radius</strong> whenever possible.</p><button onclick="showPage('map')" style="display:block;margin-top:10px;font-size:0.78rem;font-weight:700;color:var(--earth-mid);background:none;border:none;cursor:pointer;font-family:var(--font-sans);">See the map →</button></div>
+        </div>
+      </div>
+    </div>
+  </div></section>
+  <section class="cta-section"><div class="container"><div class="cta-inner"><div class="cta-card"><h3>Volunteer with us</h3><p>Over 50 volunteers keep The Rocklands open seven days a week.</p><button class="cta-link filled" onclick="showPage('volunteer')">Get involved</button></div><div class="cta-card"><h3>Our local map</h3><p>See every supplier within 30 miles of Rocklands.</p><button class="cta-link" onclick="showPage('map')">Explore</button></div><div class="cta-card"><h3>Get in touch</h3><p>Questions about the shop, Post Office or services?</p><button class="cta-link" onclick="showPage('contact')">Contact us</button></div></div></div></section>
+  <footer class="site-footer-b"><div class="container"><div class="footer-g"><div><div class="fb-brand">The Rocklands</div><p class="fb-tag">Community shop, café and Post Office, Rocklands, Norfolk.</p></div><div><div class="ft-title">Visit</div><ul class="ft-links"><li><button onclick="showPage('shop')">Shop</button></li><li><button onclick="showPage('cafe')">Café</button></li><li><button onclick="showPage('contact')">Find us</button></li></ul></div><div><div class="ft-title">Community</div><ul class="ft-links"><li><button onclick="showPage('volunteer')">Volunteer</button></li><li><button onclick="showPage('about')">About us</button></li></ul></div><div><div class="ft-title">Information</div><ul class="ft-links"><li><button onclick="showPage('about')">Privacy &amp; complaints</button></li><li><button onclick="showPage('contact')">Contact</button></li></ul></div></div><div class="footer-bottom-b"><span class="footer-legal-b">© 2025 Rocklands Community Shop Ltd. CBS Reg. No. 30665R.</span></div></div></footer>
+</div>
+
+<!-- ═══════════════════════════════════════════ VOLUNTEER PAGE -->
+<div id="page-volunteer" class="page">
+  <div class="page-hero-b"><div class="container"><div class="ph-breadcrumb"><span onclick="showPage('home')">Home</span> / Volunteer</div><div class="ph-overline">Join the team</div><h1 class="ph-title">Volunteer with The Rocklands</h1><p class="ph-sub">Run by a small staff team and over 50 dedicated volunteers. Without their essential contribution, this community shop simply would not exist.</p></div></div>
+  <section class="section inner-section"><div class="container">
+    <div class="vol-stats"><div class="vol-stat"><div class="vs-n">50+</div><div class="vs-l">Active volunteers</div></div><div class="vol-stat"><div class="vs-n">7</div><div class="vs-l">Days a week</div></div><div class="vol-stat"><div class="vs-n">12+</div><div class="vs-l">Years running</div></div><div class="vol-stat"><div class="vs-n">1</div><div class="vs-l">Community served</div></div></div>
+    <p style="font-size:1.05rem;line-height:1.85;max-width:720px;margin-bottom:36px;font-family:var(--font-serif);color:var(--ink);">Volunteers are the lifeblood of The Rocklands. Every shift contributed makes a real difference to a community that depends on this shop.</p>
+    <div class="section-label">Ways to get involved</div>
+    <h2 style="font-family:var(--font-serif);margin-bottom:4px;">Volunteer roles</h2>
+    <div class="section-rule"></div>
+    <div class="roles-g">
+      <div class="role-b"><div class="role-b-t">🛒 Shop floor &amp; till</div><div class="role-b-d">Serving customers, operating the till, answering queries, keeping shelves stocked.</div></div>
+      <div class="role-b"><div class="role-b-t">☕ Café team</div><div class="role-b-d">Making drinks, serving food and cakes, clearing tables, making our café welcoming.</div></div>
+      <div class="role-b"><div class="role-b-t">📦 Stock &amp; deliveries</div><div class="role-b-d">Receiving deliveries, checking stock, rotating products, managing supplier relationships.</div></div>
+      <div class="role-b"><div class="role-b-t">📣 Communications &amp; admin</div><div class="role-b-d">Newsletter, social media, website updates, governance documents and member communications.</div></div>
+      <div class="role-b"><div class="role-b-t">🎉 Events</div><div class="role-b-d">Helping organise community events — from chess afternoons to seasonal celebrations.</div></div>
+      <div class="role-b"><div class="role-b-t">📋 Governance support</div><div class="role-b-d">Supporting the Management Committee with meetings, minute-taking and policy reviews.</div></div>
+    </div>
+    <div class="rights-b">
+      <h3>Your rights as a volunteer</h3>
+      <ul>
+        <li>To be treated with dignity and respect at all times</li>
+        <li>To receive all training necessary to carry out your role safely</li>
+        <li>To be covered by the Society's Public Liability insurance while volunteering</li>
+        <li>To have a clearly defined role with support from the staff team</li>
+        <li>To raise concerns through our formal channels</li>
+        <li>To be supported by our Equality &amp; Diversity and Safeguarding policies</li>
+      </ul>
+      <p style="font-size:0.78rem;color:rgba(245,230,210,0.4);margin-top:16px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.08);"><strong style="color:rgba(245,230,210,0.55);">Intellectual property:</strong> Volunteers agree that any IP created whilst volunteering is assigned to Rocklands Community Shop Ltd (the Society), which retains ownership.</p>
+    </div>
+    <div class="vol-form-b">
+      <div class="section-label">Get started</div>
+      <h2 style="font-family:var(--font-serif);margin-bottom:4px;">Express your interest</h2>
+      <div class="section-rule"></div>
+      <p style="color:var(--ink-mid);margin-bottom:24px;">No commitment required — we'd just love to hear from you.</p>
+      <form onsubmit="handleForm(event)">
+        <div class="form-grid-b">
+          <div class="form-row-b"><label class="form-label-b">Your name *</label><input class="form-inp" type="text" required placeholder="e.g. Jane Smith"></div>
+          <div class="form-row-b"><label class="form-label-b">Email address *</label><input class="form-inp" type="email" required placeholder="jane@example.com"></div>
+        </div>
+        <div class="form-grid-b">
+          <div class="form-row-b"><label class="form-label-b">Phone number</label><input class="form-inp" type="tel" placeholder="Optional"></div>
+          <div class="form-row-b"><label class="form-label-b">Availability</label><input class="form-inp" type="text" placeholder="e.g. weekday mornings"></div>
+        </div>
+        <div class="form-row-b"><label class="form-label-b">What interests you?</label><textarea class="form-inp" rows="3" placeholder="Shop floor, café, events..."></textarea></div>
+        <div style="font-size:0.78rem;color:var(--ink-light);margin-bottom:16px;padding:10px 14px;background:var(--cream-dark);border:1px solid var(--border);">Your data will only be used to respond to your enquiry. We will not share it with third parties. See our <button onclick="showPage('about')" style="color:var(--earth-mid);background:none;border:none;cursor:pointer;font-family:var(--font-sans);font-size:inherit;">privacy policy</button>.</div>
+        <button type="submit" class="btn-b">Submit expression of interest</button>
+      </form>
+    </div>
+  </div></section>
+  <section class="cta-section"><div class="container"><div class="cta-inner"><div class="cta-card"><h3>Become a member</h3><p>Our members own the shop. Join and have your say.</p><button class="cta-link" onclick="showPage('about')">Join us</button></div><div class="cta-card"><h3>About us</h3><p>Mission, values, governance and how The Rocklands is run.</p><button class="cta-link" onclick="showPage('about')">Read more</button></div><div class="cta-card"><h3>Get in touch</h3><p>Have a question before you sign up?</p><button class="cta-link" onclick="showPage('contact')">Contact us</button></div></div></div></section>
+  <footer class="site-footer-b"><div class="container"><div class="footer-g"><div><div class="fb-brand">The Rocklands</div><p class="fb-tag">Community shop, café and Post Office, Rocklands, Norfolk.</p></div><div><div class="ft-title">Visit</div><ul class="ft-links"><li><button onclick="showPage('shop')">Shop</button></li><li><button onclick="showPage('cafe')">Café</button></li><li><button onclick="showPage('contact')">Find us</button></li></ul></div><div><div class="ft-title">Community</div><ul class="ft-links"><li><button onclick="showPage('volunteer')">Volunteer</button></li><li><button onclick="showPage('about')">About us</button></li></ul></div><div><div class="ft-title">Information</div><ul class="ft-links"><li><button onclick="showPage('about')">Privacy &amp; complaints</button></li><li><button onclick="showPage('contact')">Contact</button></li></ul></div></div><div class="footer-bottom-b"><span class="footer-legal-b">© 2025 Rocklands Community Shop Ltd. CBS Reg. No. 30665R.</span></div></div></footer>
+</div>
+
+<!-- ═══════════════════════════════════════════ ABOUT PAGE -->
+<div id="page-about" class="page">
+  <div class="page-hero-b"><div class="container"><div class="ph-breadcrumb"><span onclick="showPage('home')">Home</span> / About</div><div class="ph-overline">Who we are</div><h1 class="ph-title">About The Rocklands</h1><p class="ph-sub">A Community Benefit Society trading for the benefit of the local community. All profits remain within the Society.</p></div></div>
+  <section class="section inner-section"><div class="container">
+    <div class="section-label">Our mission</div>
+    <h2 style="font-family:var(--font-serif);margin-bottom:4px;">Mission Statement</h2>
+    <div class="section-rule"></div>
+    <div class="mission-pull"><p>"We pledge to operate our business in an ethical, responsible, and sustainable way for the benefit of the local community and community projects as appropriate."</p></div>
+    <p style="color:var(--ink-mid);">We source within a 30-mile radius or across Norfolk wherever possible. We only obtain meat from Red Tractor assured suppliers.</p>
+    <p style="font-size:0.78rem;color:var(--ink-light);margin-top:8px;">Signed by all members of the Management Committee. Dated: 1 August 2013.</p>
+    <div class="divider-b"></div>
+    <div class="section-label">Our values</div>
+    <h2 style="font-family:var(--font-serif);margin-bottom:4px;">H·R·Q·A·E</h2>
+    <div class="section-rule"></div>
+    <div class="values-g">
+      <div class="val"><div class="val-l">H</div><div class="val-t">Honesty</div><div class="val-d">Building strong relationships based on trust — speaking honestly with our suppliers, community and each other.</div></div>
+      <div class="val"><div class="val-l">R</div><div class="val-t">Responsibility</div><div class="val-d">Actively encouraging everyone to improve our service, always in the best interests of the community.</div></div>
+      <div class="val"><div class="val-l">Q</div><div class="val-t">Quality</div><div class="val-d">Providing and continually improving a quality service to all our stakeholders.</div></div>
+      <div class="val"><div class="val-l">A</div><div class="val-t">Awareness</div><div class="val-d">Acknowledging the social importance of the shop — especially for the elderly and rurally isolated hamlets.</div></div>
+      <div class="val"><div class="val-l">E</div><div class="val-t">Ethics</div><div class="val-d">Believing strongly in animal welfare, fair trade and social involvement — without prejudice.</div></div>
+    </div>
+    <div class="divider-b"></div>
+    <div class="section-label">Membership</div>
+    <h2 style="font-family:var(--font-serif);margin-bottom:4px;">Own your community shop</h2>
+    <div class="section-rule"></div>
+    <p style="color:var(--ink-mid);">The Rocklands is a Community Benefit Society. Membership is how the Society is owned by the community. Members attend and vote at Members' Meetings. The Management Committee is elected by and accountable to members.</p>
+    <div style="background:white;border:1px solid var(--border);border-top:3px solid var(--amber);padding:28px;margin:24px 0;"><h4 style="font-family:var(--font-serif);margin-bottom:10px;">Become a member</h4><p style="font-size:0.88rem;color:var(--ink-mid);">Membership is open to all who support our mission. Contact us to request a membership form.</p><button onclick="showPage('contact')" class="btn-b" style="margin-top:16px;">Contact us about membership</button></div>
+    <div style="background:var(--earth);padding:36px;margin:32px 0;">
+      <div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--amber);margin-bottom:10px;">Shop Notes newsletter</div>
+      <h3 style="font-family:var(--font-serif);color:#f5e6d2;margin-bottom:10px;">Sign up for our newsletter</h3>
+      <p style="font-size:0.88rem;color:rgba(245,230,210,0.65);margin-bottom:22px;">Occasional updates on what's new, events, new suppliers and community news. We won't share your email.</p>
+      <form onsubmit="handleNewsletter(event)" style="display:flex;gap:10px;flex-wrap:wrap;">
+        <input class="form-inp" type="email" placeholder="Your email address" style="flex:1;min-width:220px;background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.2);color:#f5e6d2;" required>
+        <button type="submit" class="btn-b" style="background:var(--amber);color:var(--earth);">Subscribe</button>
+      </form>
+      <p style="font-size:0.72rem;color:rgba(245,230,210,0.35);margin-top:10px;">You can unsubscribe at any time.</p>
+    </div>
+    <div class="divider-b"></div>
+    <div class="section-label">Governance</div>
+    <h2 style="font-family:var(--font-serif);margin-bottom:4px;">Documents &amp; transparency</h2>
+    <div class="section-rule"></div>
+    <ul class="doc-list-b">
+      <li><span>Governing Rules</span><button class="doc-dl">PDF ↗</button></li>
+      <li><span>Membership Strategy</span><button class="doc-dl">PDF ↗</button></li>
+      <li><span>Annual Report &amp; Accounts</span><button class="doc-dl">PDF ↗</button></li>
+      <li><span>Data Protection &amp; Privacy Policy <span class="badge-b">Updated 2025</span></span><button class="doc-dl">Below</button></li>
+      <li><span>Equality &amp; Diversity Policy</span><button class="doc-dl">PDF ↗</button></li>
+      <li><span>Health &amp; Safety Policy</span><button class="doc-dl">PDF ↗</button></li>
+      <li><span>Safeguarding Policy</span><button class="doc-dl">PDF ↗</button></li>
+      <li><span>Environmental Policy</span><button class="doc-dl">PDF ↗</button></li>
+      <li><span>Complaints Policy <span class="badge-b">Updated 2025</span></span><button class="doc-dl">Below</button></li>
+    </ul>
+    <div class="divider-b"></div>
+    <div class="section-label">Privacy</div>
+    <h2 style="font-family:var(--font-serif);margin-bottom:4px;">Privacy Policy</h2>
+    <div class="section-rule"></div>
+    <ul style="margin:16px 0 16px 24px;color:var(--ink-mid);font-size:0.9rem;line-height:2.1;">
+      <li>We collect personal data only where necessary.</li>
+      <li><strong>We will not share your information with third parties for marketing purposes.</strong></li>
+      <li>Your data is stored securely in accordance with the UK GDPR.</li>
+      <li>You may request a copy of your data, corrections, or deletion at any time.</li>
+      <li>Our website uses cookies — you may accept or decline on your first visit.</li>
+      <li>Cardholder data is destroyed immediately after processing.</li>
+    </ul>
+    <div class="divider-b"></div>
+    <div class="section-label">Complaints</div>
+    <h2 style="font-family:var(--font-serif);margin-bottom:4px;">Complaints Procedure</h2>
+    <div class="section-rule"></div>
+    <div class="complaints-b">
+      <p style="color:var(--ink-mid);margin-bottom:16px;">We view complaints as an opportunity to learn and improve. Formal complaints must be submitted <strong>in writing</strong> to the Management Committee or Chair.</p>
+      <h4 style="font-family:var(--font-serif);margin-bottom:8px;margin-top:16px;">Stage 1 — Initial review</h4>
+      <p style="font-size:0.88rem;color:var(--ink-mid);">Acknowledged within 5 working days. Written response within 28 days.</p>
+      <h4 style="font-family:var(--font-serif);margin-bottom:8px;margin-top:16px;">Stage 2 — Further review</h4>
+      <p style="font-size:0.88rem;color:var(--ink-mid);">If still dissatisfied, write to the Chair. A panel will respond within 28 days.</p>
+      <h4 style="font-family:var(--font-serif);margin-bottom:8px;margin-top:16px;">Contact for formal complaints</h4>
+      <p style="font-size:0.88rem;color:var(--ink-mid);">Post: The Management Committee, Rocklands Community Shop Ltd, The Street, Rocklands, Norfolk, NR17 1HP. Or email via our <button onclick="showPage('contact')" style="color:var(--earth-mid);background:none;border:none;cursor:pointer;font-family:var(--font-sans);">contact page</button>, marking it 'Formal Complaint'.</p>
+    </div>
+    <div class="divider-b"></div>
+    <div class="section-label">Support &amp; funding</div>
+    <h2 style="font-family:var(--font-serif);margin-bottom:4px;">We are grateful to our supporters</h2>
+    <div class="section-rule"></div>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center;padding:28px;background:white;border:1px solid var(--border);">
+      <span style="padding:10px 20px;background:var(--cream-dark);border:1px solid var(--border);font-size:0.82rem;font-weight:700;color:var(--ink-mid);">Plunkett UK</span>
+      <span style="padding:10px 20px;background:var(--cream-dark);border:1px solid var(--border);font-size:0.82rem;font-weight:700;color:var(--ink-mid);">The Prince's Countryside Fund</span>
+      <span style="padding:10px 20px;background:var(--cream-dark);border:1px solid var(--border);font-size:0.82rem;font-weight:700;color:var(--ink-mid);">National Lottery Community Fund</span>
+    </div>
+  </div></section>
+  <section class="cta-section"><div class="container"><div class="cta-inner"><div class="cta-card"><h3>Volunteer with us</h3><p>Over 50 volunteers keep The Rocklands open seven days a week.</p><button class="cta-link filled" onclick="showPage('volunteer')">Get involved</button></div><div class="cta-card"><h3>Our local map</h3><p>Every supplier within 30 miles of Rocklands.</p><button class="cta-link" onclick="showPage('map')">Explore</button></div><div class="cta-card"><h3>Get in touch</h3><p>Questions, membership or complaints.</p><button class="cta-link" onclick="showPage('contact')">Contact us</button></div></div></div></section>
+  <footer class="site-footer-b"><div class="container"><div class="footer-g"><div><div class="fb-brand">The Rocklands</div><p class="fb-tag">Community shop, café and Post Office, Rocklands, Norfolk.</p></div><div><div class="ft-title">Visit</div><ul class="ft-links"><li><button onclick="showPage('shop')">Shop</button></li><li><button onclick="showPage('cafe')">Café</button></li><li><button onclick="showPage('contact')">Find us</button></li></ul></div><div><div class="ft-title">Community</div><ul class="ft-links"><li><button onclick="showPage('volunteer')">Volunteer</button></li><li><button onclick="showPage('about')">Membership</button></li></ul></div><div><div class="ft-title">Information</div><ul class="ft-links"><li><button onclick="showPage('about')">Privacy</button></li><li><button onclick="showPage('about')">Complaints</button></li><li><button onclick="showPage('contact')">Contact</button></li></ul></div></div><div class="footer-bottom-b"><span class="footer-legal-b">© 2025 Rocklands Community Shop Ltd. CBS Reg. No. 30665R.</span></div></div></footer>
+</div>
+
+<!-- ═══════════════════════════════════════════ CONTACT PAGE -->
+<div id="page-contact" class="page">
+  <div class="page-hero-b"><div class="container"><div class="ph-breadcrumb"><span onclick="showPage('home')">Home</span> / Contact</div><div class="ph-overline">Get in touch</div><h1 class="ph-title">Contact Us</h1><p class="ph-sub">We'd love to hear from you — whether you're interested in volunteering, have a supplier enquiry, or just need to check something.</p></div></div>
+  <section class="section inner-section"><div class="container">
+    <div class="contact-g">
+      <div>
+        <div class="section-label">Find us</div>
+        <h2 style="font-family:var(--font-serif);margin-bottom:4px;">Rocklands, Norfolk</h2>
+        <div class="section-rule"></div>
+        <div class="cib-b"><div class="cib-b-label">Address</div><div class="cib-b-val">The Rocklands</div><div class="cib-b-sub">The Street, Rocklands, Norfolk, NR17 1HP</div></div>
+        <div class="cib-b"><div class="cib-b-label">Registered</div><div class="cib-b-sub">Rocklands Community Shop Ltd · Community Benefit Society · Reg. No. 30665R</div></div>
+        <div class="cib-b"><div class="cib-b-label">Telephone</div><div class="cib-b-val" style="color:var(--earth-mid);">01953 XXX XXX</div><div class="cib-b-sub">Replace with actual shop number</div></div>
+        <div class="cib-b"><div class="cib-b-label">Email</div><div class="cib-b-val" style="font-size:0.95rem;font-family:var(--font-sans);color:var(--earth-mid);">info@therocklands.co.uk</div><div class="cib-b-sub">We aim to respond within 2 working days</div></div>
+        <div class="cib-b"><div class="cib-b-label">Opening hours</div><div class="cib-b-sub">Sunday: 8:00am – 1:00pm<br>Monday – Friday: 8:00am – 5:30pm<br>Saturday: 8:00am – 4:00pm<br><br><em>Post Office keeps the same hours, including Sundays.</em></div></div>
+        <div class="map-ph"><span>🗺️</span><span>Add a Google Maps embed here</span></div>
+      </div>
+      <div>
+        <div class="section-label">Send a message</div>
+        <h2 style="font-family:var(--font-serif);margin-bottom:4px;">Get in touch</h2>
+        <div class="section-rule"></div>
+        <p style="color:var(--ink-mid);margin-bottom:24px;font-size:0.88rem;">For formal complaints, please see our <button onclick="showPage('about')" style="color:var(--earth-mid);background:none;border:none;cursor:pointer;font-family:var(--font-sans);">complaints procedure</button>.</p>
+        <div class="vol-form-b">
+          <form onsubmit="handleForm(event)">
+            <div class="form-row-b"><label class="form-label-b">Your name *</label><input class="form-inp" type="text" required placeholder="e.g. Jane Smith"></div>
+            <div class="form-row-b"><label class="form-label-b">Email address *</label><input class="form-inp" type="email" required placeholder="jane@example.com"></div>
+            <div class="form-row-b"><label class="form-label-b">Subject</label><input class="form-inp" type="text" placeholder="e.g. Supplier enquiry..."></div>
+            <div class="form-row-b"><label class="form-label-b">Message *</label><textarea class="form-inp" rows="5" required placeholder="How can we help?"></textarea></div>
+            <div style="font-size:0.78rem;color:var(--ink-light);margin-bottom:16px;padding:10px 14px;background:var(--cream-dark);border:1px solid var(--border);">We will not share your data with third parties for marketing purposes.</div>
+            <button type="submit" class="btn-b">Send message</button>
+          </form>
+        </div>
+        <div class="complaints-b" style="margin-top:24px;">
+          <h3 style="font-family:var(--font-serif);margin-bottom:10px;">Formal complaints</h3>
+          <p style="font-size:0.88rem;color:var(--ink-mid);">Formal complaints must be submitted <strong>in writing</strong> to the Management Committee or Chair. Post: The Management Committee, Rocklands Community Shop Ltd, The Street, Rocklands, Norfolk, NR17 1HP.</p>
+          <button onclick="showPage('about')" style="display:block;margin-top:12px;font-size:0.82rem;font-weight:700;color:var(--earth-mid);background:none;border:none;cursor:pointer;font-family:var(--font-sans);">Read the full complaints procedure →</button>
+        </div>
+      </div>
+    </div>
+  </div></section>
+  <section class="cta-section"><div class="container"><div class="cta-inner"><div class="cta-card"><h3>Volunteer with us</h3><p>Over 50 volunteers keep The Rocklands open seven days a week.</p><button class="cta-link filled" onclick="showPage('volunteer')">Get involved</button></div><div class="cta-card"><h3>Become a member</h3><p>Our members own the shop.</p><button class="cta-link" onclick="showPage('about')">Join us</button></div><div class="cta-card"><h3>Our 30-mile map</h3><p>See every local supplier within 30 miles.</p><button class="cta-link" onclick="showPage('map')">Explore</button></div></div></div></section>
+  <footer class="site-footer-b"><div class="container"><div class="footer-g"><div><div class="fb-brand">The Rocklands</div><p class="fb-tag">Community shop, café and Post Office, Rocklands, Norfolk.</p></div><div><div class="ft-title">Visit</div><ul class="ft-links"><li><button onclick="showPage('shop')">Shop</button></li><li><button onclick="showPage('cafe')">Café</button></li></ul></div><div><div class="ft-title">Community</div><ul class="ft-links"><li><button onclick="showPage('volunteer')">Volunteer</button></li><li><button onclick="showPage('about')">About us</button></li></ul></div><div><div class="ft-title">Information</div><ul class="ft-links"><li><button onclick="showPage('about')">Privacy &amp; complaints</button></li></ul></div></div><div class="footer-bottom-b"><span class="footer-legal-b">© 2025 Rocklands Community Shop Ltd. CBS Reg. No. 30665R.</span></div></div></footer>
+</div>
+
+<!-- COOKIE BANNER -->
+<div class="cookie-b" id="cookie-b" style="display:none;">
+  <span>We use cookies to understand how visitors use our site. We will not share your data with third parties for marketing.</span>
+  <div style="display:flex;gap:10px;flex-shrink:0;">
+    <button class="ck-acc" onclick="cookieAcc()">Accept</button>
+    <button class="ck-dec" onclick="cookieDec()">Decline</button>
+  </div>
+</div>
+
+<script>
+  function showPage(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
+    const nb = document.getElementById('nav-' + name);
+    if (nb) nb.classList.add('active');
+    window.scrollTo(0, 0);
+    highlightToday();
+  }
+
+  function toggleMobileNav() {
+    const mn = document.getElementById('mobile-nav');
+    mn.style.display = mn.style.display === 'none' ? 'block' : 'none';
+  }
+
+  function pillClick(el) {
+    document.querySelectorAll('.hero-pill').forEach(p => p.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  function highlightToday() {
+    const day = new Date().getDay();
+    document.querySelectorAll('.hours-tbl').forEach(tbl => {
+      tbl.querySelectorAll('tr').forEach((r,i) => {
+        r.classList.remove('today');
+        if (i === day) r.classList.add('today');
+      });
+    });
+  }
+  highlightToday();
+
+  if (!localStorage.getItem('rcsb-cookies')) {
+    document.getElementById('cookie-b').style.display = 'flex';
+  }
+  function cookieAcc() { localStorage.setItem('rcsb-cookies','y'); document.getElementById('cookie-b').style.display='none'; }
+  function cookieDec() { localStorage.setItem('rcsb-cookies','n'); document.getElementById('cookie-b').style.display='none'; }
+
+  function handleForm(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type=submit]');
+    const orig = btn.textContent;
+    btn.textContent = 'Thank you — we\'ll be in touch';
+    btn.disabled = true;
+    btn.style.background = '#1D6B5C';
+    setTimeout(() => { btn.textContent = orig; btn.disabled = false; btn.style.background = ''; }, 4000);
+  }
+  function handleNewsletter(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button');
+    btn.textContent = 'Subscribed ✓';
+    e.target.querySelector('input').value = '';
+    setTimeout(() => btn.textContent = 'Subscribe', 3000);
+  }
+</script>
+</body>
+</html>
