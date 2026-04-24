@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Rocklands — Local Marketplace, Norfolk</title>
+  <meta name="description" content="The Rocklands: a community shop, café and Post Office rooted in Norfolk. Everything sourced within 30 miles.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-wordmark">The Rocklands<small>Local Marketplace · Community Benefit Society</small></div>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="our-map.html">Our Map</a>
+      <a href="cafe.html">Café</a>
+      <a href="shop.html">Shop &amp; Post Office</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <a href="volunteer.html" class="nav-cta">Volunteer</a>
+    <button class="nav-hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- HERO WITH MAP -->
+<section class="map-hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <div class="hero-overline">Rocklands, Norfolk · Community Benefit Society</div>
+        <h1 class="hero-h1">Everything within <em>30 miles.</em> Everything worth having.</h1>
+        <p class="hero-body">A community shop, café and Post Office rooted in Norfolk. Every product we stock is sourced within 30 miles or across the county — grown, reared or made by people you can meet.</p>
+        <div class="hero-pills">
+          <span class="hero-pill active">All suppliers</span>
+          <span class="hero-pill">Meat &amp; dairy</span>
+          <span class="hero-pill">Bakery</span>
+          <span class="hero-pill">Produce</span>
+          <span class="hero-pill">Café</span>
+        </div>
+      </div>
+
+      <div class="map-container">
+        <div class="map-badge">30-mile sourcing radius</div>
+        <svg width="100%" viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg" aria-label="Map showing Rocklands and surrounding local suppliers within 30 miles">
+          <!-- Background -->
+          <rect width="480" height="360" fill="#1a1208"/>
+          <!-- Grid lines suggesting Norfolk roads -->
+          <line x1="0" y1="180" x2="480" y2="180" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/>
+          <line x1="240" y1="0" x2="240" y2="360" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/>
+          <line x1="0" y1="90" x2="480" y2="110" stroke="rgba(255,255,255,0.04)" stroke-width="0.5"/>
+          <line x1="0" y1="270" x2="480" y2="250" stroke="rgba(255,255,255,0.04)" stroke-width="0.5"/>
+          <line x1="120" y1="0" x2="100" y2="360" stroke="rgba(255,255,255,0.04)" stroke-width="0.5"/>
+          <line x1="360" y1="0" x2="340" y2="360" stroke="rgba(255,255,255,0.04)" stroke-width="0.5"/>
+          <!-- Radius circle -->
+          <circle cx="240" cy="188" r="130" fill="rgba(212,165,116,0.04)" stroke="rgba(212,165,116,0.18)" stroke-width="1" stroke-dasharray="5 4"/>
+          <!-- Norfolk coast -->
+          <path d="M40 45 Q130 22, 240 35 Q360 18, 450 50" stroke="rgba(255,255,255,0.2)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <text x="340" y="30" font-size="9" fill="rgba(255,255,255,0.25)" font-family="'Karla',sans-serif">Norfolk coast</text>
+          <!-- Rocklands -->
+          <circle cx="240" cy="188" r="10" fill="#d4a574" opacity="0.95"/>
+          <circle cx="240" cy="188" r="18" fill="none" stroke="#d4a574" stroke-width="1.5" opacity="0.35"/>
+          <circle cx="240" cy="188" r="26" fill="none" stroke="#d4a574" stroke-width="0.8" opacity="0.15"/>
+          <text x="255" y="178" font-size="10" fill="#f5e6d2" font-family="'Karla',sans-serif" font-weight="700">Rocklands</text>
+          <!-- Supplier: DJ Barnard - ~8mi S -->
+          <line x1="240" y1="198" x2="250" y2="240" stroke="rgba(59,139,212,0.3)" stroke-width="0.5" stroke-dasharray="3 3"/>
+          <circle cx="250" cy="244" r="7" fill="#3B8BD4" opacity="0.9"/>
+          <text x="262" y="248" font-size="8" fill="rgba(255,255,255,0.6)" font-family="'Karla',sans-serif">Barnard's</text>
+          <!-- Supplier: Dann's Farm - ~5mi NW -->
+          <line x1="230" y1="181" x2="198" y2="162" stroke="rgba(29,155,117,0.3)" stroke-width="0.5" stroke-dasharray="3 3"/>
+          <circle cx="194" cy="158" r="7" fill="#1D9E75" opacity="0.9"/>
+          <text x="205" y="162" font-size="8" fill="rgba(255,255,255,0.6)" font-family="'Karla',sans-serif">Dann's Farm</text>
+          <!-- Supplier: Hingham - ~8mi SW -->
+          <line x1="232" y1="194" x2="180" y2="222" stroke="rgba(239,159,39,0.3)" stroke-width="0.5" stroke-dasharray="3 3"/>
+          <circle cx="176" cy="226" r="7" fill="#EF9F27" opacity="0.9"/>
+          <text x="157" y="240" font-size="8" fill="rgba(255,255,255,0.6)" font-family="'Karla',sans-serif">Hingham</text>
+          <!-- More suppliers (future) -->
+          <circle cx="315" cy="140" r="5" fill="rgba(212,165,116,0.5)" opacity="0.7"/>
+          <circle cx="170" cy="130" r="5" fill="rgba(196,76,40,0.6)" opacity="0.6"/>
+          <circle cx="340" cy="240" r="5" fill="rgba(176,136,48,0.6)" opacity="0.6"/>
+          <circle cx="148" cy="268" r="4" fill="rgba(29,107,92,0.6)" opacity="0.5"/>
+          <circle cx="350" cy="185" r="4" fill="rgba(59,139,212,0.5)" opacity="0.5"/>
+          <!-- Legend -->
+          <rect x="14" y="302" width="148" height="46" fill="rgba(0,0,0,0.5)" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+          <circle cx="26" cy="316" r="4" fill="#3B8BD4"/>
+          <text x="34" y="320" font-size="7.5" fill="rgba(255,255,255,0.5)" font-family="'Karla',sans-serif">Meat &amp; dairy</text>
+          <circle cx="26" cy="334" r="4" fill="#1D9E75"/>
+          <text x="34" y="338" font-size="7.5" fill="rgba(255,255,255,0.5)" font-family="'Karla',sans-serif">Farm produce</text>
+          <circle cx="90" cy="316" r="4" fill="#EF9F27"/>
+          <text x="98" y="320" font-size="7.5" fill="rgba(255,255,255,0.5)" font-family="'Karla',sans-serif">Bakery</text>
+          <circle cx="90" cy="334" r="4" fill="#d4a574"/>
+          <text x="98" y="338" font-size="7.5" fill="rgba(255,255,255,0.5)" font-family="'Karla',sans-serif">The Rocklands</text>
+          <!-- Attribution -->
+          <text x="240" y="353" font-size="7" fill="rgba(255,255,255,0.2)" font-family="'Karla',sans-serif" text-anchor="middle">Schematic map · distances approximate</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MISSION STRIP -->
+<div class="mission-strip">
+  <div class="container" style="padding:0;">
+    <div class="mission-strip-inner">
+      <div class="ms-item">
+        <div class="ms-label">Our pledge</div>
+        <p class="ms-text">We trade <strong>for the community's benefit</strong> — every penny of profit stays in the Society for local good.</p>
+      </div>
+      <div class="ms-item">
+        <div class="ms-label">Animal welfare</div>
+        <p class="ms-text">Meat only from <strong>Red Tractor assured</strong> suppliers who take welfare seriously at every stage.</p>
+      </div>
+      <div class="ms-item">
+        <div class="ms-label">Social roots</div>
+        <p class="ms-text">Here for <strong>everyone</strong> — especially elderly residents and those in our rurally isolated hamlets.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SUPPLIERS SECTION -->
+<section class="section supplier-section">
+  <div class="container">
+    <div class="section-label">Our producers</div>
+    <h2 class="section-heading">The people behind your food</h2>
+    <div class="section-rule"></div>
+
+    <div class="suppliers-grid">
+      <div class="s-card">
+        <div class="s-card-dot" style="background:#3B8BD4;"></div>
+        <div class="s-card-dist">8 miles</div>
+        <div class="s-card-name">DJ Barnard's Meats</div>
+        <div class="s-card-loc">📍 Attleborough, Norfolk</div>
+        <p class="s-card-desc">A trusted local butcher providing fresh, dry-aged beef and lamb. Assured under the Red Tractor scheme, DJ Barnard's takes animal welfare seriously at every stage.</p>
+        <span class="s-card-tag">Red Tractor Assured</span>
+        <p style="margin-top:12px;"><a href="our-map.html#barnards" style="font-size:0.78rem;font-weight:700;color:var(--earth-mid);">See on map →</a></p>
+      </div>
+      <div class="s-card">
+        <div class="s-card-dot" style="background:#1D9E75;"></div>
+        <div class="s-card-dist">5 miles</div>
+        <div class="s-card-name">Dann's Farm</div>
+        <div class="s-card-loc">📍 Shipdham, Norfolk</div>
+        <p class="s-card-desc">Just down the road, Dann's Farm produces exceptional ice cream and lollies from their own dairy herd. Seasonal flavours including their famous elderflower.</p>
+        <span class="s-card-tag">Farm fresh · seasonal</span>
+        <p style="margin-top:12px;"><a href="our-map.html#danns" style="font-size:0.78rem;font-weight:700;color:var(--earth-mid);">See on map →</a></p>
+      </div>
+      <div class="s-card">
+        <div class="s-card-dot" style="background:#EF9F27;"></div>
+        <div class="s-card-dist">8 miles</div>
+        <div class="s-card-name">Hingham Bakery</div>
+        <div class="s-card-loc">📍 Hingham, Norfolk</div>
+        <p class="s-card-desc">Fresh bread baked every morning and delivered to us daily. Sourdough, seeded bloomers, pastries and more — arrives by 8:30am, goes fast on Sundays.</p>
+        <span class="s-card-tag">Daily delivery</span>
+        <p style="margin-top:12px;"><a href="our-map.html#hingham" style="font-size:0.78rem;font-weight:700;color:var(--earth-mid);">See on map →</a></p>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:32px;">
+      <a href="our-map.html" style="font-size:0.8rem;font-weight:700;color:var(--earth-mid);border-bottom:1px solid var(--earth-mid);padding-bottom:2px;">Explore the full 30-mile map →</a>
+    </div>
+  </div>
+</section>
+
+<!-- STORIES SECTION -->
+<section class="section story-section">
+  <div class="container">
+    <div class="section-label">Supplier stories</div>
+    <h2 class="section-heading">From the land to your table</h2>
+    <div class="section-rule"></div>
+    <div class="story-grid">
+      <div class="story-card">
+        <div class="story-thumb st-a">🥩</div>
+        <div class="story-body">
+          <div class="story-cat">Meat · DJ Barnard's Meats</div>
+          <div class="story-title">The farmer behind your beef</div>
+          <div class="story-loc">Attleborough · 8 miles from Rocklands</div>
+          <p style="font-size:0.84rem;color:var(--ink-mid);margin-top:10px;line-height:1.7;">Dry-aged on the farm, delivered fresh to the shop each week. <a href="our-map.html#barnards" style="color:var(--earth-mid);font-weight:700;">Read the story →</a></p>
+        </div>
+      </div>
+      <div class="story-card">
+        <div class="story-thumb st-b">🍦</div>
+        <div class="story-body">
+          <div class="story-cat">Dairy · Dann's Farm</div>
+          <div class="story-title">Elderflower season at Dann's</div>
+          <div class="story-loc">Shipdham · 5 miles from Rocklands</div>
+          <p style="font-size:0.84rem;color:var(--ink-mid);margin-top:10px;line-height:1.7;">The first batch of the season arrived this week. <a href="our-map.html#danns" style="color:var(--earth-mid);font-weight:700;">Read the story →</a></p>
+        </div>
+      </div>
+      <div class="story-card">
+        <div class="story-thumb st-c">🍞</div>
+        <div class="story-body">
+          <div class="story-cat">Bakery · Hingham Bakery</div>
+          <div class="story-title">A morning with the bakers</div>
+          <div class="story-loc">Hingham · 8 miles from Rocklands</div>
+          <p style="font-size:0.84rem;color:var(--ink-mid);margin-top:10px;line-height:1.7;">Baked at 5am, on our shelves by 8:30. <a href="our-map.html#hingham" style="color:var(--earth-mid);font-weight:700;">Read the story →</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOURS & PO -->
+<section class="info-section">
+  <div class="container" style="padding-top:0;padding-bottom:0;">
+    <div class="info-two-col">
+      <div class="info-col">
+        <div class="col-label-b">Opening hours — shop, café &amp; Post Office</div>
+        <table class="hours-tbl" aria-label="Opening hours">
+          <tr><td>Sunday</td><td style="text-align:right;">8:00am – 1:00pm</td></tr>
+          <tr><td>Monday</td><td style="text-align:right;">8:00am – 5:30pm</td></tr>
+          <tr><td>Tuesday</td><td style="text-align:right;">8:00am – 5:30pm</td></tr>
+          <tr><td>Wednesday</td><td style="text-align:right;">8:00am – 5:30pm</td></tr>
+          <tr><td>Thursday</td><td style="text-align:right;">8:00am – 5:30pm</td></tr>
+          <tr><td style="font-weight:700;">Friday</td><td style="text-align:right;font-weight:700;color:var(--amber);">8:00am – 5:30pm</td></tr>
+          <tr><td>Saturday</td><td style="text-align:right;">8:00am – 4:00pm</td></tr>
+        </table>
+        <p style="font-size:0.8rem;color:var(--ink-light);margin-top:14px;padding-top:12px;border-top:1px solid var(--border);">The Post Office counter service keeps the same hours as the shop, including Sundays. Post Office services exclude passport applications.</p>
+      </div>
+      <div class="info-col">
+        <div class="col-label-b">Post Office &amp; additional services</div>
+        <ul class="po-list">
+          <li><span class="ico">📦</span><span><strong>Send &amp; receive parcels</strong> — Drop &amp; Go, despatch, collections</span></li>
+          <li><span class="ico">🏦</span><span><strong>Everyday banking</strong> — deposit cash &amp; cheques, withdrawals</span></li>
+          <li><span class="ico">💰</span><span><strong>Travel money</strong> — euros, US dollars &amp; other currencies</span></li>
+          <li><span class="ico">🚗</span><span><strong>DVLA services</strong> — vehicle tax &amp; other transactions</span></li>
+          <li><span class="ico">💡</span><span><strong>Bill payments</strong> — gas, electricity, council tax &amp; more</span></li>
+          <li><span class="ico">📮</span><span><strong>Stamps, stationery, gift cards</strong> — all denominations</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA SECTION -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-inner">
+      <div class="cta-card">
+        <h3>Volunteer with us</h3>
+        <p>Over 50 volunteers keep The Rocklands open seven days a week. Every shift makes a real difference to our community.</p>
+        <a href="volunteer.html" class="cta-link filled">Get involved</a>
+      </div>
+      <div class="cta-card">
+        <h3>Become a member</h3>
+        <p>As a Community Benefit Society, our members own the shop. Your voice shapes how The Rocklands serves the community.</p>
+        <a href="about.html#membership" class="cta-link">Join us</a>
+      </div>
+      <div class="cta-card">
+        <h3>Shop Notes</h3>
+        <p>Our occasional newsletter — what's new, what's fresh, and what's happening at The Rocklands and in the community.</p>
+        <a href="about.html#newsletter" class="cta-link">Sign up</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FUNDING -->
+<section class="section-sm" style="background:white;border-top:1px solid var(--border);">
+  <div class="container">
+    <div class="section-label" style="text-align:center;margin-bottom:20px;">Funding &amp; support</div>
+    <div style="display:flex;gap:20px;align-items:center;justify-content:center;flex-wrap:wrap;">
+      <a href="https://www.plunkett.co.uk" target="_blank" rel="noopener" style="padding:10px 20px;background:var(--cream-dark);border:1px solid var(--border);font-size:0.82rem;font-weight:700;color:var(--ink-mid);">Plunkett UK</a>
+      <a href="https://www.princescountrysidefund.org.uk" target="_blank" rel="noopener" style="padding:10px 20px;background:var(--cream-dark);border:1px solid var(--border);font-size:0.82rem;font-weight:700;color:var(--ink-mid);">The Prince's Countryside Fund</a>
+      <a href="https://www.tnlcommunityfund.org.uk" target="_blank" rel="noopener" style="padding:10px 20px;background:var(--cream-dark);border:1px solid var(--border);font-size:0.82rem;font-weight:700;color:var(--ink-mid);">National Lottery Community Fund</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer-b">
+  <div class="container">
+    <div class="footer-g">
+      <div>
+        <div class="fb-brand">The Rocklands</div>
+        <p class="fb-tag">A community shop, café and Post Office rooted in Norfolk. Trading for the benefit of our community since 2013.</p>
+        <p style="margin-top:16px;font-size:0.72rem;color:rgba(245,230,210,0.3);">Rocklands Community Shop Ltd<br>Community Benefit Society · Reg. No. 30665R</p>
+      </div>
+      <div>
+        <div class="ft-title">Visit</div>
+        <ul class="ft-links"><li><a href="shop.html">Shop &amp; Post Office</a></li><li><a href="cafe.html">Café</a></li><li><a href="our-map.html">Our 30-mile map</a></li><li><a href="contact.html">Find us</a></li></ul>
+      </div>
+      <div>
+        <div class="ft-title">Community</div>
+        <ul class="ft-links"><li><a href="volunteer.html">Volunteer</a></li><li><a href="about.html#membership">Membership</a></li><li><a href="our-map.html">Suppliers &amp; partners</a></li><li><a href="about.html#governance">Governance</a></li></ul>
+      </div>
+      <div>
+        <div class="ft-title">Information</div>
+        <ul class="ft-links"><li><a href="about.html">About us</a></li><li><a href="about.html#privacy">Privacy policy</a></li><li><a href="about.html#complaints">Complaints</a></li><li><a href="contact.html">Contact</a></li></ul>
+      </div>
+    </div>
+    <div class="footer-bottom-b">
+      <span class="footer-legal-b">© 2025 Rocklands Community Shop Ltd. Community Benefit Society Reg. No. 30665R. We will not share your data with third parties for marketing purposes.</span>
+      <div class="social-b"><a href="#" class="soc-b">f</a><a href="#" class="soc-b">ig</a></div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rocklands Market — The Harvest Board</title>
+  <meta name="description" content="Rocklands Market: a community shop, café and Post Office at the heart of Norfolk. See what's fresh in today.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <svg class="nav-bird-icon" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M18 56 C13 46,3 41,8 31 C13 21,29 26,40 21 C54 14,70 10,72 19 C74 27,61 31,56 36 C66 33,76 36,73 43 C70 50,56 46,49 49 C43 52,39 59,33 63 C27 67,21 63,18 56Z" fill="rgba(143,188,143,0.9)"/>
+        <rect x="31" y="59" width="4" height="12" rx="2" fill="rgba(143,188,143,0.5)" transform="rotate(-8 31 59)"/>
+        <rect x="37" y="61" width="4" height="10" rx="2" fill="rgba(143,188,143,0.5)"/>
+        <rect x="39" y="63" width="11" height="8" rx="3" fill="rgba(143,188,143,0.4)"/>
+      </svg>
+      <div class="nav-logo-text">
+        Rocklands Market
+        <small>Community Benefit Society · Est. 2013</small>
+      </div>
+    </a>
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="index.html" class="active">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="cafe.html">Café</a>
+      <a href="suppliers.html">Suppliers</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <a href="volunteer.html" class="nav-cta">Volunteer</a>
+    <button class="nav-hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- BOARD HERO -->
+<section class="board-hero">
+  <div class="container">
+    <div class="board-top">
+      <div>
+        <div class="board-eyebrow">On the board today</div>
+        <h1 class="board-title">Fresh in this week</h1>
+        <p class="board-intro">Your community shop, café &amp; Post Office in the heart of Rocklands, Norfolk. Everything we stock is grown, reared or made within 30 miles.</p>
+      </div>
+      <div class="board-date-box" id="board-live-date">
+        <div class="board-date-day" id="board-day-name">Friday</div>
+        <div class="board-date-num" id="board-day-num">25</div>
+        <div class="board-date-month" id="board-month-name">April</div>
+      </div>
+    </div>
+
+    <div class="board-grid">
+      <div class="board-card">
+        <div class="bc-cat">DJ Barnard's Meats · Attleborough</div>
+        <div class="bc-name">Dry-aged Norfolk beef</div>
+        <p class="bc-note">Cut fresh this week. Rib eye, sirloin and mince available at the counter.</p>
+        <span class="bc-badge red">Red Tractor Assured</span>
+      </div>
+      <div class="board-card">
+        <div class="bc-cat">Dann's Farm · Shipdham</div>
+        <div class="bc-name">Elderflower ice cream</div>
+        <p class="bc-note">First batch of the season. Also stocking their Norfolk clotted cream lollies.</p>
+        <span class="bc-badge">3 miles · just arrived</span>
+      </div>
+      <div class="board-card">
+        <div class="bc-cat">Hingham Bakery · Hingham</div>
+        <div class="bc-name">Sourdough &amp; seeded bloomer</div>
+        <p class="bc-note">Baked fresh every morning. Arrives by 8:30am — gets going fast on Sundays.</p>
+        <span class="bc-badge">8 miles · daily</span>
+      </div>
+      <div class="board-card">
+        <div class="bc-cat">Dove's Café · today's special</div>
+        <div class="bc-name">Crab &amp; dill tart with salad</div>
+        <p class="bc-note">Made with crab from Cromer. Eat in or take away. A pot of tea is £1 extra.</p>
+        <span class="bc-badge">Eat in · Take away</span>
+      </div>
+      <div class="board-card">
+        <div class="bc-cat">Post Office · full counter service</div>
+        <div class="bc-name">Open all week including Sundays</div>
+        <p class="bc-note">Banking, travel money, parcels, bill payments &amp; more. Same hours as the shop.</p>
+        <span class="bc-badge">8am–1pm Sundays</span>
+      </div>
+      <div class="board-card">
+        <div class="bc-cat">This weekend · community events</div>
+        <div class="bc-name">Chess &amp; Dominoes — Saturday 2pm</div>
+        <p class="bc-note">Regular community afternoon. All welcome, all abilities. Café open throughout.</p>
+        <span class="bc-badge">Free entry</span>
+      </div>
+    </div>
+
+    <div class="board-weather">
+      <span>⛅</span>
+      <span>Rocklands automatic weather station: <strong>11.2°C, light north-easterly breeze, rather cool and overcast.</strong></span>
+    </div>
+  </div>
+</section>
+
+<!-- HOURS + SUPPLIERS -->
+<section style="background:white;">
+  <div class="container" style="padding-top:0;padding-bottom:0;">
+    <div class="info-grid">
+      <div class="info-col">
+        <div class="col-label">Opening hours — shop, café &amp; Post Office</div>
+        <table class="hours-table" aria-label="Opening hours">
+          <tr><td class="day-name">Sunday</td><td>8:00am – 1:00pm</td></tr>
+          <tr><td class="day-name">Monday</td><td>8:00am – 5:30pm</td></tr>
+          <tr><td class="day-name">Tuesday</td><td>8:00am – 5:30pm</td></tr>
+          <tr><td class="day-name">Wednesday</td><td>8:00am – 5:30pm</td></tr>
+          <tr><td class="day-name">Thursday</td><td>8:00am – 5:30pm</td></tr>
+          <tr><td class="day-name">Friday</td><td>8:00am – 5:30pm</td></tr>
+          <tr><td class="day-name">Saturday</td><td>8:00am – 4:00pm</td></tr>
+        </table>
+        <p class="hours-note">The Post Office counter service keeps the same hours as the shop, even on Sundays. Our <em>normal</em> opening hours are shown above — please check our social media for any holiday changes.</p>
+        <p style="margin-top:12px;"><a href="shop.html" style="font-size:0.82rem;font-weight:700;color:var(--green-mid);">All services &amp; what we stock →</a></p>
+      </div>
+      <div class="info-col">
+        <div class="col-label">Our local suppliers — within 30 miles</div>
+        <div class="supplier-list">
+          <a href="suppliers.html" class="supplier-item" style="text-decoration:none;">
+            <span class="si-dot" style="background:#3B8BD4;"></span>
+            <div><div class="si-name">DJ Barnard's Meats</div><div class="si-note">Attleborough · Red Tractor beef &amp; lamb</div></div>
+          </a>
+          <a href="suppliers.html" class="supplier-item" style="text-decoration:none;">
+            <span class="si-dot" style="background:#1D9E75;"></span>
+            <div><div class="si-name">Dann's Farm</div><div class="si-note">Shipdham · Ice cream, lollies &amp; dairy</div></div>
+          </a>
+          <a href="suppliers.html" class="supplier-item" style="text-decoration:none;">
+            <span class="si-dot" style="background:#EF9F27;"></span>
+            <div><div class="si-name">Hingham Bakery</div><div class="si-note">Hingham · Fresh bread &amp; pastries, daily</div></div>
+          </a>
+          <a href="suppliers.html" class="supplier-item" style="text-decoration:none;opacity:0.7;">
+            <span class="si-dot" style="background:#ccc;"></span>
+            <div><div class="si-name" style="font-style:italic;font-weight:400;">See all our local suppliers →</div><div class="si-note">15+ producers within 30 miles of Rocklands</div></div>
+          </a>
+        </div>
+        <a href="suppliers.html" class="supplier-more mt-2" style="display:block;">View full suppliers &amp; partners page →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTAs -->
+<div class="cta-bar">
+  <a href="volunteer.html" class="cta-btn primary">Volunteer with us</a>
+  <a href="about.html#membership" class="cta-btn">Become a member</a>
+  <a href="about.html#newsletter" class="cta-btn">Sign up for Shop Notes</a>
+</div>
+
+<!-- MISSION STRIP -->
+<section class="section-sm" style="background:var(--cream-dark);">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px;">
+      <div>
+        <div class="col-label">Our mission</div>
+        <p style="font-size:0.88rem;line-height:1.7;color:var(--ink-mid);">We pledge to operate in an ethical, responsible and sustainable way for the benefit of the local community. All profits stay within the Society.</p>
+        <a href="about.html" style="font-size:0.82rem;font-weight:700;color:var(--green-mid);">Read our mission →</a>
+      </div>
+      <div>
+        <div class="col-label">Community &amp; social</div>
+        <p style="font-size:0.88rem;line-height:1.7;color:var(--ink-mid);">We're here for everyone — especially elderly residents and people in our rurally isolated hamlets. Run by the community, for the community.</p>
+        <a href="about.html#community" style="font-size:0.82rem;font-weight:700;color:var(--green-mid);">Our community role →</a>
+      </div>
+      <div>
+        <div class="col-label">What we offer</div>
+        <p style="font-size:0.88rem;line-height:1.7;color:var(--ink-mid);">Groceries, fresh local produce, an off-licence, lottery, newspapers, Post Office, café, greetings cards, phone top-ups and lots more — seven days a week.</p>
+        <a href="shop.html" style="font-size:0.82rem;font-weight:700;color:var(--green-mid);">What's in the shop →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FUNDING LOGOS -->
+<section class="section-sm" style="background:white;border-top:1px solid var(--border);">
+  <div class="container">
+    <div class="col-label text-center" style="margin-bottom:20px;">Funding &amp; support — we're grateful to</div>
+    <div style="display:flex;gap:20px;align-items:center;justify-content:center;flex-wrap:wrap;">
+      <a href="https://www.plunkett.co.uk" target="_blank" rel="noopener" class="funding-logo">Plunkett UK</a>
+      <a href="https://www.princescountrysidefund.org.uk" target="_blank" rel="noopener" class="funding-logo">The Prince's Countryside Fund</a>
+      <a href="https://www.tnlcommunityfund.org.uk" target="_blank" rel="noopener" class="funding-logo">The National Lottery Community Fund</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand-name">Rocklands Market</div>
+        <p class="footer-tagline">A community shop, café and Post Office at the heart of Rocklands, Norfolk. Trading for the benefit of our community since 2013.</p>
+        <p style="margin-top:16px;font-size:0.78rem;color:rgba(245,240,232,0.4);">Rocklands Community Shop Ltd<br>Community Benefit Society · Reg. No. 30665R</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Visit</div>
+        <ul class="footer-links-list">
+          <li><a href="shop.html">Shop &amp; services</a></li>
+          <li><a href="cafe.html">Dove's Café</a></li>
+          <li><a href="shop.html#post-office">Post Office</a></li>
+          <li><a href="contact.html">Find us</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Community</div>
+        <ul class="footer-links-list">
+          <li><a href="volunteer.html">Volunteer</a></li>
+          <li><a href="about.html#membership">Membership</a></li>
+          <li><a href="suppliers.html">Suppliers &amp; partners</a></li>
+          <li><a href="about.html#governance">Governance</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Information</div>
+        <ul class="footer-links-list">
+          <li><a href="about.html">About us</a></li>
+          <li><a href="about.html#privacy">Privacy policy</a></li>
+          <li><a href="about.html#complaints">Complaints</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-legal">© 2025 Rocklands Community Shop Ltd. Community Benefit Society Reg. No. 30665R. Registered Office: Rocklands, Norfolk. We will not share your data with third parties for marketing purposes.</span>
+      <div class="footer-social">
+        <a href="https://www.facebook.com" target="_blank" rel="noopener" class="social-icon" aria-label="Facebook">f</a>
+        <a href="https://www.instagram.com" target="_blank" rel="noopener" class="social-icon" aria-label="Instagram">ig</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
